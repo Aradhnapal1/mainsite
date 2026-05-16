@@ -1,0 +1,1 @@
+const domin = 'http://microsite_backend.workarya.com'
