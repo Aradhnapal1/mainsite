@@ -168,3 +168,63 @@ async function loadBlogBySlug() {
 }
 
 document.addEventListener("DOMContentLoaded", loadBlogBySlug);
+
+
+
+
+
+// Home blog section
+async function loadHomeBlogs() {
+    const homeContainer = document.getElementById("homeBlogContainer");
+    if (!homeContainer) return;
+
+    try {
+        const res = await fetch("http://microsite_backend.workarya.com/api/blog/getall");
+        const result = await res.json();
+
+        if (!result.status || !result.data) return;
+
+        // Destroy existing carousel if it's already initialized to prevent visual glitches
+        if (window.jQuery && $(homeContainer).hasClass("owl-loaded")) {
+            $(homeContainer).trigger("destroy.owl.carousel").removeClass("owl-loaded owl-hidden");
+            $(homeContainer).find(".owl-stage-outer").children().unwrap();
+        }
+
+        homeContainer.innerHTML = "";
+
+        result.data.forEach(blog => {
+            homeContainer.innerHTML += `
+                <article class="entry">
+                    <figure class="entry-media">
+                        <a href="blog-detail.php?slug=${blog.slug}">
+                            <img src="${blog.featuredImage}" alt="${blog.title}" style="height: 250px; object-fit: cover; width: 100%;">
+                        </a>
+                    </figure>
+                    <div class="entry-body text-center">
+                        <div class="entry-meta">
+                            <a href="#">${new Date(blog.createdAt).toDateString()}</a>
+                        </div>
+                        <h3 class="entry-title">
+                            <a href="blog-detail.php?slug=${blog.slug}">${blog.title}</a>
+                        </h3>
+                        <div class="entry-content">
+                            <a href="blog-detail.php?slug=${blog.slug}" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>`;
+        });
+
+        // Re-initialize Owl Carousel with the newly appended items
+        setTimeout(() => {
+            if (window.jQuery && $.fn.owlCarousel) {
+                let options = $(homeContainer).data("owl-options");
+                $(homeContainer).owlCarousel(options);
+            }
+        }, 100);
+
+    } catch (err) {
+        console.error("Home Blog API error:", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadHomeBlogs);
