@@ -4,31 +4,22 @@
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">Blog Grid 4 Columns<span>Blog</span></h1>
+        			<h1 class="page-title">Blogs </h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Blog</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Grid 4 Columns</li>
+                      
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
                 <div class="container">
-                    <nav class="blog-nav">
-                        <ul class="menu-cat entry-filter justify-content-center">
-                            <li class="active"><a href="#" data-filter="*">All Blog Posts<span>8</span></a></li>
-                            <li><a href="#" data-filter=".lifestyle">Lifestyle<span>3</span></a></li>
-                            <li><a href="#" data-filter=".shopping">Shopping<span>1</span></a></li>
-                            <li><a href="#" data-filter=".fashion">Fashion<span>2</span></a></li>
-                            <li><a href="#" data-filter=".travel">Travel<span>3</span></a></li>
-                            <li><a href="#" data-filter=".hobbies">Hobbies<span>2</span></a></li>
-                        </ul><!-- End .blog-menu -->
-                    </nav><!-- End .blog-nav -->
+                   
 
                 	<div class="entry-container max-col-4" data-layout="fitRows">
                         <div class="entry-item lifestyle shopping col-sm-6 col-md-4 col-lg-3">
