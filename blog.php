@@ -21,7 +21,7 @@
                 <div class="container">
                    
 
-                	<div class="entry-container max-col-4" data-layout="fitRows">
+                	<div class="entry-container max-col-4" id="blogContainer" data-layout="fitRows">
                         <div class="entry-item lifestyle shopping col-sm-6 col-md-4 col-lg-3" >
                             <article class="entry entry-grid text-center">
                                 <figure class="entry-media">
@@ -54,7 +54,7 @@
                         </div><!-- End .entry-item -->
 
                       
-                	</div><!-- End .entry-container -->
+                	</div>
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
