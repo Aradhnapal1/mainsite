@@ -97,10 +97,11 @@ async function loadBlogBySlug() {
         document.getElementById("blogDate").innerText =
             new Date(blogData.createdAt).toDateString();
 
+        const relatedBlogs = result.data.filter(b => b.id !== blog.id);
+
         // 5️⃣ Populate Related Blogs (Exclude the current blog)
         const relatedContainer = document.getElementById("relatedBlogsContainer");
         if (relatedContainer) {
-            const relatedBlogs = result.data.filter(b => b.id !== blog.id);
             
             // If Owl Carousel is already initialized, destroy it first to update DOM cleanly
             if (window.jQuery && $(relatedContainer).hasClass("owl-loaded")) {
@@ -137,6 +138,28 @@ async function loadBlogBySlug() {
                     $(relatedContainer).owlCarousel(options);
                 }
             }, 100);
+        }
+
+        // 6️⃣ Populate Popular Posts in Sidebar (Exclude the current blog)
+        const popularContainer = document.getElementById("popularPostsContainer");
+        if (popularContainer) {
+            popularContainer.innerHTML = "";
+            const popularBlogs = relatedBlogs.slice(0, 4); // Limit to 4 posts
+
+            popularBlogs.forEach(pb => {
+                popularContainer.innerHTML += `
+                    <li>
+                        <figure>
+                            <a href="blog-detail.php?slug=${pb.slug}">
+                                <img src="${pb.featuredImage}" alt="${pb.title}" style="width: 80px; height: 80px; object-fit: cover;">
+                            </a>
+                        </figure>
+                        <div>
+                            <span>${new Date(pb.createdAt).toDateString()}</span>
+                            <h4><a href="blog-detail.php?slug=${pb.slug}">${pb.title}</a></h4>
+                        </div>
+                    </li>`;
+            });
         }
 
     } catch (err) {
