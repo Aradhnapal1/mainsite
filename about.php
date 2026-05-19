@@ -52,7 +52,7 @@
                             eget blandit nunc tortor eu nibh. Suspendisse potenti. Sed egestas, ante et vulputate
                             volutpat, uctus metus libero eu augue. </p>
 
-                        <a href="blog.html" class="btn btn-sm btn-minwidth btn-outline-primary-2">
+                        <a href="blog.php" class="btn btn-sm btn-minwidth btn-outline-primary-2">
                             <span>VIEW OUR NEWS</span>
                             <i class="icon-long-arrow-right"></i>
                         </a>

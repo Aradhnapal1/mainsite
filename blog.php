@@ -22,7 +22,7 @@
                    
 
                 	<div class="entry-container max-col-4" data-layout="fitRows">
-                        <div class="entry-item lifestyle shopping col-sm-6 col-md-4 col-lg-3">
+                        <div class="entry-item lifestyle shopping col-sm-6 col-md-4 col-lg-3" >
                             <article class="entry entry-grid text-center">
                                 <figure class="entry-media">
                                     <a href="blog-detail.php">
@@ -33,8 +33,7 @@
                                 <div class="entry-body">
                                     <div class="entry-meta">
                                         <a href="#">Nov 22, 2018</a>
-                                        <span class="meta-separator">|</span>
-                                        <a href="#">2 Comments</a>
+                                      
                                     </div>
 
                                     <h2 class="entry-title">

@@ -746,7 +746,7 @@
                         }'>
                 <article class="entry">
                     <figure class="entry-media">
-                        <a href="single.html">
+                        <a href="blog-detail.php">
                             <img src="assets/images/demos/demo-7/blog/post-1.jpg" alt="image desc">
                         </a>
                     </figure><!-- End .entry-media -->
@@ -757,18 +757,18 @@
                         </div><!-- End .entry-meta -->
 
                         <h3 class="entry-title">
-                            <a href="single.html">Sed adipiscing ornare.</a>
+                            <a href="blog-detail.php">Sed adipiscing ornare.</a>
                         </h3><!-- End .entry-title -->
 
                         <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
+                            <a href="blog-detail.php" class="read-more">Read More</a>
                         </div><!-- End .entry-content -->
                     </div><!-- End .entry-body -->
                 </article><!-- End .entry -->
 
                 <article class="entry">
                     <figure class="entry-media">
-                        <a href="single.html">
+                        <a href="blog-detail.php">
                             <img src="assets/images/demos/demo-7/blog/post-2.jpg" alt="image desc">
                         </a>
                     </figure><!-- End .entry-media -->
@@ -779,18 +779,18 @@
                         </div><!-- End .entry-meta -->
 
                         <h3 class="entry-title">
-                            <a href="single.html">Fusce lacinia arcuet nulla.</a>
+                            <a href="blog-detail.php">Fusce lacinia arcuet nulla.</a>
                         </h3><!-- End .entry-title -->
 
                         <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
+                            <a href="blog-detail.php" class="read-more">Read More</a>
                         </div><!-- End .entry-content -->
                     </div><!-- End .entry-body -->
                 </article><!-- End .entry -->
 
                 <article class="entry">
                     <figure class="entry-media">
-                        <a href="single.html">
+                        <a href="blog-detail.php">
                             <img src="assets/images/demos/demo-7/blog/post-3.jpg" alt="image desc">
                         </a>
                     </figure><!-- End .entry-media -->
@@ -801,18 +801,18 @@
                         </div><!-- End .entry-meta -->
 
                         <h3 class="entry-title">
-                            <a href="single.html">Quisque volutpat mattis eros.</a>
+                            <a href="blog-detail.php">Quisque volutpat mattis eros.</a>
                         </h3><!-- End .entry-title -->
 
                         <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
+                            <a href="blog-detail.php" class="read-more">Read More</a>
                         </div><!-- End .entry-content -->
                     </div><!-- End .entry-body -->
                 </article><!-- End .entry -->
 
                 <article class="entry">
                     <figure class="entry-media">
-                        <a href="single.html">
+                        <a href="blog-detail.php">
                             <img src="assets/images/demos/demo-7/blog/post-4.jpg" alt="image desc">
                         </a>
                     </figure><!-- End .entry-media -->
@@ -823,11 +823,11 @@
                         </div><!-- End .entry-meta -->
 
                         <h3 class="entry-title">
-                            <a href="single.html">Mauris suscipit in massa.</a>
+                            <a href="blog-detail.php">Mauris suscipit in massa.</a>
                         </h3><!-- End .entry-title -->
 
                         <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
+                            <a href="blog-detail.php" class="read-more">Read More</a>
                         </div><!-- End .entry-content -->
                     </div><!-- End .entry-body -->
                 </article><!-- End .entry -->
