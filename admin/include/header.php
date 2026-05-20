@@ -52,6 +52,7 @@
     <script src="./adminApi/custmor-logo.js"></script>
     <script src="./adminApi/variant.js"></script>
     <script src="./adminApi/microsite.js"></script>
+    <script src="./adminApi/blog.js"></script>
     
 </head>
 
@@ -222,6 +223,29 @@
                                            
                                         </ul>
                                     </li>
+
+
+                                     <li class="menu-item has-children">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><i class="icon-layers"></i></div>
+                                            <div class="text">Blog</div>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li class="sub-menu-item">
+                                                <a href="blog-list.php" class="">
+                                                    <div class="text">Blog list</div>
+                                                </a>
+                                            </li>
+                                           
+                                           
+                                        </ul>
+                                    </li>
+
+
+
+
+
+
                                    
                                     <li class="menu-item has-children">
                                         <a href="javascript:void(0);" class="menu-item-button">
