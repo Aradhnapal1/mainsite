@@ -36,62 +36,89 @@
               <div class="body-title mb-10">Theme</div>
               <div class="flex gap24 mb-24">
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Header Color</div>
                   <div class="flex gap10">
-                    <input id="themeHeaderColor" type="text" placeholder="Header Color">
+                    <input id="themeHeaderColor" type="text" placeholder="#111827">
                     <input id="themeHeaderColorPicker" type="color" value="#111827" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Text Color</div>
                   <div class="flex gap10">
-                    <input id="themeTextColor" type="text" placeholder="Text Color">
+                    <input id="themeTextColor" type="text" placeholder="#ffffff">
                     <input id="themeTextColorPicker" type="color" value="#ffffff" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
               </div>
               <div class="flex gap24 mb-24">
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Background Color</div>
                   <div class="flex gap10">
-                    <input id="themeBackgroundColor" type="text" placeholder="Background Color">
+                    <input id="themeBackgroundColor" type="text" placeholder="#ffffff">
                     <input id="themeBackgroundColorPicker" type="color" value="#ffffff" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Button Color</div>
                   <div class="flex gap10">
-                    <input id="themeButtonColor" type="text" placeholder="Button Color">
+                    <input id="themeButtonColor" type="text" placeholder="#2563eb">
                     <input id="themeButtonColorPicker" type="color" value="#2563eb" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
               </div>
               <div class="flex gap24 mb-24">
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Button Text Color</div>
                   <div class="flex gap10">
-                    <input id="themeButtonTextColor" type="text" placeholder="Button Text Color">
+                    <input id="themeButtonTextColor" type="text" placeholder="#ffffff">
                     <input id="themeButtonTextColorPicker" type="color" value="#ffffff" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Footer Color</div>
                   <div class="flex gap10">
-                    <input id="themeFooterColor" type="text" placeholder="Footer Color">
+                    <input id="themeFooterColor" type="text" placeholder="#1f2937">
                     <input id="themeFooterColorPicker" type="color" value="#1f2937" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
               </div>
               <div class="flex gap24">
                 <fieldset class="name w-half">
+                  <div class="body-title mb-10">Footer Text Color</div>
                   <div class="flex gap10">
-                    <input id="themeFooterTextColor" type="text" placeholder="Footer Text Color">
+                    <input id="themeFooterTextColor" type="text" placeholder="#ffffff">
                     <input id="themeFooterTextColorPicker" type="color" value="#ffffff" style="width:56px;padding:6px;">
                   </div>
                 </fieldset>
-                <fieldset class="name w-half"><input id="themeFontFamily" type="text" placeholder="Font Family"></fieldset>
+                <fieldset class="name w-half">
+                  <div class="body-title mb-10">Font Family</div>
+                  <input id="themeFontFamily" type="text" placeholder="Poppins, Arial">
+                </fieldset>
               </div>
             </div>
             <div class="wg-box mt-20">
+              <div class="body-title mb-10">Assigned Products</div>
+              <div id="micrositeAssignedProductsList" class="mb-12">Loading assigned products...</div>
+              <a href="assigned-products.php" class="tf-button style-1">Manage Product Assignment</a>
+            </div>
+            <div class="wg-box mt-20">
               <div class="body-title mb-10">SEO</div>
-              <fieldset class="name mb-24"><input id="seoMetaTitle" type="text" placeholder="Meta Title"></fieldset>
-              <fieldset class="description mb-24"><textarea id="seoMetaDescription" placeholder="Meta Description"></textarea></fieldset>
-              <fieldset class="name mb-24"><input id="seoMetaKeywords" type="text" placeholder="Meta Keywords"></fieldset>
-              <fieldset class="name"><input id="seoOgImage" type="text" placeholder="OG Image URL"></fieldset>
+              <fieldset class="name mb-24">
+                <div class="body-title mb-10">Meta Title</div>
+                <input id="seoMetaTitle" type="text" placeholder="Meta Title">
+              </fieldset>
+              <fieldset class="description mb-24">
+                <div class="body-title mb-10">Meta Description</div>
+                <textarea id="seoMetaDescription" placeholder="Meta Description"></textarea>
+              </fieldset>
+              <fieldset class="name mb-24">
+                <div class="body-title mb-10">Meta Keywords</div>
+                <input id="seoMetaKeywords" type="text" placeholder="Meta Keywords">
+              </fieldset>
+              <fieldset class="name">
+                <div class="body-title mb-10">OG Image URL</div>
+                <input id="seoOgImage" type="text" placeholder="OG Image URL">
+              </fieldset>
             </div>
           </div>
 
@@ -129,3 +156,4 @@
   </div>
 </div>
 <?php include 'include/footer.php'; ?>
+

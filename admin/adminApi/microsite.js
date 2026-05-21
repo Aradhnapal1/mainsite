@@ -503,6 +503,22 @@ async function initMicrositeFormPage() {
     seoMetaDescription.value = seo.metaDescription ?? "";
     seoMetaKeywords.value = seo.metaKeywords ?? "";
     seoOgImage.value = seo.ogImage ?? "";
+    if (Array.isArray(data.assignedProducts) && data.assignedProducts.length) {
+      const container = document.getElementById("micrositeAssignedProductsList");
+      if (container) {
+        container.innerHTML =
+          '<ul class="mb-0">' +
+          data.assignedProducts
+            .map((p) => {
+              const name = p.productName || p.name || "Product";
+              return `<li>${name}</li>`;
+            })
+            .join("") +
+          "</ul>";
+      }
+    } else {
+      await loadAssignedProductsForMicrosite(idFromQuery);
+    }
   }
 
   updateLivePreview();
@@ -556,6 +572,61 @@ async function initMicrositeFormPage() {
   });
 }
 
+function normalizeAssignedRows(rows) {
+  if (!rows) return [];
+  return Array.isArray(rows) ? rows : (rows.data || []);
+}
+
+function getAssignRowId(row) {
+  return row.id ?? row.Id ?? 0;
+}
+
+function getAssignMicrositeId(row) {
+  return row.micrositeID ?? row.micrositeId ?? row.MicrositeID ?? row.MicrositeId ?? 0;
+}
+
+function getAssignProductName(row) {
+  return row.product?.name ?? row.product?.Name ?? row.Product?.name ?? row.Product?.Name ?? "-";
+}
+
+function getAssignProductId(row) {
+  return row.product?.productId ?? row.product?.ProductId ?? row.Product?.productId ?? 0;
+}
+
+function getAssignStatus(row) {
+  return row.assignStatus ?? row.AssignStatus ?? false;
+}
+
+async function loadAssignedProductsForMicrosite(micrositeId) {
+  const container = document.getElementById("micrositeAssignedProductsList");
+  if (!container || !micrositeId) return;
+
+  try {
+    const rows = normalizeAssignedRows(
+      await fetchJson(`${domin}/api/admin/assigned-products`, { headers: getAuthHeaders() })
+    );
+    const mine = rows.filter((r) => Number(getAssignMicrositeId(r)) === Number(micrositeId));
+
+    if (!mine.length) {
+      container.innerHTML = '<p class="mb-0 text-muted">Is microsite ke liye koi product assign nahi hai. Neeche button se assign karein.</p>';
+      return;
+    }
+
+    container.innerHTML =
+      '<ul class="mb-0">' +
+      mine
+        .map((r) => {
+          const status = getAssignStatus(r) ? "Active" : "Inactive";
+          return `<li>${getAssignProductName(r)} <span class="badge bg-secondary">${status}</span></li>`;
+        })
+        .join("") +
+      "</ul>";
+  } catch (err) {
+    container.innerHTML = '<p class="mb-0 text-danger">Assigned products load nahi ho paye.</p>';
+    console.error(err);
+  }
+}
+
 async function initAssignedProductPage() {
   const form = document.getElementById("assignProductForm");
   const table = document.getElementById("assignedProductTableBody");
@@ -584,7 +655,7 @@ async function initAssignedProductPage() {
     }
 
     try {
-      const productRes = await fetchJson(`http://microsite_backend.workarya.com/api/product/getproduct`);
+      const productRes = await fetchJson(`${domin}/api/product/getproduct`, { headers: getAuthHeaders() });
       const products = Array.isArray(productRes) ? productRes : (productRes.data || []);
       products.forEach((p) => {
         const id = p.id || p.Id || p.productId || p.ProductId;
@@ -599,22 +670,32 @@ async function initAssignedProductPage() {
   }
 
   async function loadRows() {
-    const rows = await fetchJson(`${domin}/api/admin/assigned-products`, { headers: getAuthHeaders() });
+    const rows = normalizeAssignedRows(
+      await fetchJson(`${domin}/api/admin/assigned-products`, { headers: getAuthHeaders() })
+    );
     table.innerHTML = "";
+    if (!rows.length) {
+      table.innerHTML = '<tr><td colspan="5" class="text-center">No assigned products found.</td></tr>';
+      return;
+    }
     rows.forEach((row) => {
+      const rowId = getAssignRowId(row);
+      const micrositeId = getAssignMicrositeId(row);
+      const productId = getAssignProductId(row);
+      const isActive = getAssignStatus(row);
       table.insertAdjacentHTML(
         "beforeend",
         `<tr>
-          <td>${row.id}</td>
-          <td>${row.micrositeName ?? ""}</td>
-          <td>${row.product?.name ?? ""}</td>
-          <td>${row.assignStatus ? "Active" : "Inactive"}</td>
+          <td>${rowId}</td>
+          <td>${row.micrositeName ?? row.MicrositeName ?? ""}</td>
+          <td>${getAssignProductName(row)}</td>
+          <td>${isActive ? "Active" : "Inactive"}</td>
           <td>
             <div class="list-icon-function">
-              <div class="item text-primary" title="Edit" onclick="editAssignRow(${row.id}, ${row.micrositeID}, ${row.product?.productId ?? 0}, ${row.assignStatus ? "true" : "false"})">
+              <div class="item text-primary" title="Edit" onclick="editAssignRow(${rowId}, ${micrositeId}, ${productId}, ${isActive ? "true" : "false"})">
                 <i class="icon-edit-3"></i>
               </div>
-              <div class="item text-danger" title="Delete" onclick="deleteAssignRow(${row.id})">
+              <div class="item text-danger" title="Delete" onclick="deleteAssignRow(${rowId})">
                 <i class="icon-trash-2"></i>
               </div>
             </div>

@@ -1,5 +1,19 @@
+function goToForgotPassword(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    window.location.href = "forgot-password.php";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".forgot-link, #forgotPasswordLink").forEach((link) => {
+        link.addEventListener("click", goToForgotPassword);
+        const href = (link.getAttribute("href") || "").trim();
+        if (!href || href === "#") {
+            link.setAttribute("href", "forgot-password.php");
+        }
+    });
     const token = localStorage.getItem("token");
     const userName = localStorage.getItem("userName") || "My Account";
 

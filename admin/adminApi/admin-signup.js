@@ -1,4 +1,4 @@
-const addAdmin = "http://microsite_backend.workarya.com/api/admin/add";
+const addAdmin = `${domin}/api/admin/add`;
 
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("register-form");

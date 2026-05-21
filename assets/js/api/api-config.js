@@ -1,9 +1,8 @@
 /**
- * Backward-compatible entry — same as api-config.js
+ * Central API base URL for mainsite + admin + microsite.
+ * Default: LIVE backend. Local dev: add ?localapi=1 to URL.
  */
 (function (global) {
-    if (global.domain) return;
-
     var API_LIVE = "http://microsite_backend.workarya.com";
     var API_LOCAL = "https://localhost:7161";
 
@@ -26,7 +25,13 @@
     }
 
     var base = resolveApiBase().replace(/\/$/, "");
-    global.API_CONFIG = { live: API_LIVE, local: API_LOCAL, base: base, isLive: base === API_LIVE };
+
+    global.API_CONFIG = {
+        live: API_LIVE,
+        local: API_LOCAL,
+        base: base,
+        isLive: base === API_LIVE.replace(/\/$/, "")
+    };
     global.domain = base;
     global.API_BASE = base;
     global.domin = base;

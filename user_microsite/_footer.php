@@ -19,6 +19,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+<script src="_microsite-app.js"></script>
 <script src="_runtime.js"></script>
 </body>
 </html>
