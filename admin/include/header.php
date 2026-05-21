@@ -10,7 +10,7 @@
     <!-- Basic Page Needs -->
     <meta charset="utf-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>Remos eCommerce Admin Dashboard HTML Template</title>
+    <title> HyperScripts | Admin Dashboard</title>
 
     <meta name="author" content="themesflat.com">
 
@@ -33,13 +33,14 @@
     <link rel="stylesheet" href="icon/style.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="images/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="images/favicon.png">
+    <link rel="shortcut icon" href="images/favicon.webp">
+    <link rel="apple-touch-icon-precomposed" href="images/favicon.webp">
 
     <!-- toster -->
        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
     <!-- scripts file  -->
+     <link rel="stylesheet" href="https://d-themes.com/html/molla/assets/css/fonts/molla-icons.css">
     <script src="./adminApi/auth.js"></script>
     <script src="./adminApi/domin.js"></script>
     <script src="./adminApi/login.js"></script>
@@ -52,6 +53,8 @@
     <script src="./adminApi/custmor-logo.js"></script>
     <script src="./adminApi/variant.js"></script>
     <script src="./adminApi/microsite.js"></script>
+    <script src="./adminApi/blog.js"></script>
+    <script src="./adminApi/contact.js"></script>
     
 </head>
 
@@ -222,6 +225,29 @@
                                            
                                         </ul>
                                     </li>
+
+
+                                     <li class="menu-item has-children">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><i class="icon-layers"></i></div>
+                                            <div class="text">Blog</div>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li class="sub-menu-item">
+                                                <a href="blog-list.php" class="">
+                                                    <div class="text">Blog list</div>
+                                                </a>
+                                            </li>
+                                           
+                                           
+                                        </ul>
+                                    </li>
+
+
+
+
+
+
                                    
                                     <li class="menu-item has-children">
                                         <a href="javascript:void(0);" class="menu-item-button">
@@ -320,29 +346,7 @@
                                             <div class="text">Setting</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item has-children">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><i class="icon-edit"></i></div>
-                                            <div class="text">Pages</div>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="sub-menu-item">
-                                                <a href="list-page.php" class="">
-                                                    <div class="text">List page</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="new-page.php" class="">
-                                                    <div class="text">New page</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="edit-page.php" class="">
-                                                    <div class="text">Edit page</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                  
                                 </ul>
                             </div>
                          
@@ -514,52 +518,23 @@
                                                 </span>
                                                 <span class="flex flex-column">
                                                     <span class="body-title mb-2">Kristin Watson</span>
-                                                    <span class="text-tiny">Admin</span>
+                                                 
                                                 </span>
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end has-content" aria-labelledby="dropdownMenuButton3" >
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-user"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Account</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-mail"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-file-text"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Taskboard</div>
-                                                </a>
-                                            </li>
-                                            <li>
+                                          
+                                           
+                                           
+                                            <!-- <li>
                                                 <a href="setting.php" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-settings"></i>
                                                     </div>
                                                     <div class="body-title-2">Setting</div>
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-headphones"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Support</div>
-                                                </a>
-                                            </li>
+                                            </li> -->
+                                            
                                             <li>
                                                 <div  style="cursor: pointer;" class="user-item">
                                                     <div class="icon">
