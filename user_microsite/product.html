@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Microsite Home</title>
+    <title>Product Details</title>
     <meta name="description" content="Microsite page">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -14,7 +14,7 @@
     <script src="microsite-config.js"></script>
     <script src="_microsite-shell.js"></script>
 </head>
-<body data-ms-page="home"><header class="ms-header py-3 mb-4">
+<body data-ms-page="product"><header class="ms-header py-3 mb-4">
     <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
         <a href="#" data-ms-nav="index" class="text-decoration-none d-flex align-items-center text-reset ms-nav-home">
             <img id="msLogo" class="ms-logo me-2" src="" alt="Logo" style="display:none;">
@@ -36,27 +36,21 @@
 </header>
 <main class="container pb-5">
 
-<section class="mb-4">
-    <img id="msBanner" class="ms-banner" src="" alt="Banner" style="display:none;">
-</section>
-<section class="card p-4 shadow-sm mb-4">
-    <h1 id="msHeading">Microsite Heading</h1>
-    <p id="msContent" class="mb-0">Loading microsite...</p>
-</section>
-<div class="ms-featured-wrap" id="msProductsSection">
-    <div class="container-fluid px-3 px-lg-4">
-        <div class="heading heading-center mb-3"><h2 class="title">FEATURED PRODUCTS</h2></div>
-        <div class="ms-carousel-shell">
-            <button type="button" class="ms-carousel-btn ms-carousel-prev" id="msCarouselPrev" aria-label="Previous products"><span>&#8249;</span></button>
-            <div class="ms-products-viewport">
-                <div id="msProducts" class="ms-products-track"></div>
-            </div>
-            <button type="button" class="ms-carousel-btn ms-carousel-next" id="msCarouselNext" aria-label="Next products"><span>&#8250;</span></button>
+<section class="card p-4 shadow-sm mb-4" id="msProductSection">
+    <div class="row g-4">
+        <div class="col-md-6"><img id="msProductImage" class="img-fluid rounded" src="" alt="Product" style="display:none;"></div>
+        <div class="col-md-6">
+            <p class="text-muted mb-1" id="msProductCategory">Product</p>
+            <h1 class="h3" id="msProductTitle">Product</h1>
+            <div class="h4 my-3" id="msProductPrice">₹0</div>
+            <p class="mb-2"><strong>Availability:</strong> <span id="msProductStock">-</span></p>
+            <p id="msProductDesc" class="text-muted">Loading product details...</p>
+            <button type="button" class="btn ms-btn mt-2" id="msAddToCartBtn">Add to Cart</button>
+            <a href="#" data-ms-nav="index" class="btn btn-link mt-2 d-inline-block">Back to Home</a>
         </div>
-        <div class="ms-carousel-dots" id="msCarouselDots"></div>
-        <p id="msProductsEmpty" class="ms-products-empty" style="display:none;">This microsite do not have products.</p>
     </div>
-</div>
+    <p id="msProductEmpty" class="text-danger mt-3" style="display:none;">Product not found for this microsite.</p>
+</section>
 </main>
 <footer class="ms-footer py-4 mt-4">
     <div class="container">
