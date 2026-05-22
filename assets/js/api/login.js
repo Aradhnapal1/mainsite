@@ -141,4 +141,74 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // --- Handle Registration Form ---
+    const registerForm = document.getElementById("registerForm");
+
+    if (registerForm) {
+        registerForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const firstName = document.getElementById("register-first-name").value.trim();
+            const lastName = document.getElementById("register-last-name").value.trim();
+            const email = document.getElementById("register-email").value.trim();
+            const password = document.getElementById("register-password").value.trim();
+            const policy = document.getElementById("register-policy").checked;
+
+            if (!firstName || !lastName || !email || !password) {
+                iziToast.warning({
+                    title: "Required",
+                    message: "All fields are required",
+                    position: "topRight"
+                });
+                return;
+            }
+
+            if (!policy) {
+                iziToast.warning({
+                    title: "Required",
+                    message: "Please agree to the privacy policy",
+                    position: "topRight"
+                });
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("Firstname", firstName);
+            formData.append("Lastname", lastName);
+            formData.append("Email", email);
+            formData.append("Password", password);
+            formData.append("Role", "USER");
+            formData.append("Isactive", "true");
+
+            const btnSubmit = registerForm.querySelector('button[type="submit"]');
+            const originalBtnText = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = '<span>SIGNING UP...</span>';
+            btnSubmit.disabled = true;
+
+            try {
+                const apiBase = typeof domain !== 'undefined' ? domain : 'http://microsite_backend.workarya.com';
+                const res = await fetch(`${apiBase}/api/users/adduser`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.status !== false && data.status !== "false" && data.status !== 0) {
+                    iziToast.success({ title: "Success", message: data.message || "Registration successful! You can now log in.", position: "topRight" });
+                    registerForm.reset();
+                    document.getElementById('signin-tab')?.click(); // Automatically switch back to login tab
+                } else {
+                    iziToast.error({ title: "Error", message: data.message || "Registration failed", position: "topRight" });
+                }
+            } catch (error) {
+                console.error("Registration Error:", error);
+                iziToast.error({ title: "Server Error", message: "Something went wrong during registration.", position: "topRight" });
+            } finally {
+                btnSubmit.innerHTML = originalBtnText;
+                btnSubmit.disabled = false;
+            }
+        });
+    }
 });
