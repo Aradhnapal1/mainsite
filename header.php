@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="assets/css/skins/skin-demo-7.css">
     <link rel="stylesheet" href="assets/css/demos/demo-7.css">
 
+   <script src="assets/js/api/api-config.js"></script>
    <script src="assets/js/api/product.js"></script>
-   <script src="assets/js/api/domain.js"></script>
    <script src="assets/js/api/shopsidebar.js"></script>
    <script src="assets/js/api/cart.js"></script>
    <script src="assets/js/api/login.js"></script>

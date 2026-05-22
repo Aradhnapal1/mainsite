@@ -1,4 +1,3 @@
-var domain = "http://microsite_backend.workarya.com";
 var api = `${domain}/api/product/getproduct`;
 
 const selectedProductIds = new Set();
