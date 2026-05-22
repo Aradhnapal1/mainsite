@@ -23,7 +23,7 @@
 
                 	<div class="entry-container max-col-4" id="blogContainer" data-layout="fitRows">
                         <div class="entry-item lifestyle shopping col-sm-6 col-md-4 col-lg-3" >
-                            <article class="entry entry-grid text-center">
+                            <!-- <article class="entry entry-grid text-center">
                                 <figure class="entry-media">
                                     <a href="blog-detail.php">
                                         <img src="assets/images/blog/grid/4cols/post-1.jpg" alt="image desc">
@@ -38,19 +38,19 @@
 
                                     <h2 class="entry-title">
                                         <a href="blog-detail.php">Cras ornare tristique elit.</a>
-                                    </h2><!-- End .entry-title -->
+                                    </h2>
 
                                     <div class="entry-cats">
                                         in <a href="#">Lifestyle</a>,
                                         <a href="#">Shopping</a>
-                                    </div><!-- End .entry-cats -->
+                                    </div>
 
                                     <div class="entry-content">
                                         <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. </p>
                                         <a href="blog-detail.php" class="read-more">Continue Reading</a>
-                                    </div><!-- End .entry-content -->
-                                </div><!-- End .entry-body -->
-                            </article><!-- End .entry -->
+                                    </div>
+                                </div>
+                            </article> -->
                         </div><!-- End .entry-item -->
 
                       
