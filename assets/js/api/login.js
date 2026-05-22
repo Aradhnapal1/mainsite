@@ -15,7 +15,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("userName") || "My Account";
+    let userName = localStorage.getItem("userName") || "My Account";
+
+    // Decode the token to get the full name dynamically on page load
+    if (token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+            const payload = JSON.parse(jsonPayload);
+            
+            // Grab first and last name from token claims
+            const givenNameKey = Object.keys(payload).find(k => k.toLowerCase().includes('givenname') || k.toLowerCase() === 'firstname');
+            const surnameKey = Object.keys(payload).find(k => k.toLowerCase().includes('surname') || k.toLowerCase() === 'lastname');
+            
+            let fName = givenNameKey ? payload[givenNameKey] : userName;
+            let lName = surnameKey ? payload[surnameKey] : "";
+            
+            userName = `${fName} ${lName}`.trim() || userName;
+        } catch (err) {
+            console.error("Could not parse token to get full name", err);
+        }
+    }
 
     const headerLoginLink = document.querySelector('a[href="#signin-modal"]');
     if (token && headerLoginLink) {
@@ -84,8 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data.status && token) {
                     localStorage.setItem("token", token);
 
-                    const firstName = data.data?.firstname || "User";
-                    localStorage.setItem("userName", firstName);
+                    // Grab both first and last name and save it as the full name
+                    const firstName = data.data?.firstname || data.data?.firstName || "User";
+                    const lastName = data.data?.lastname || data.data?.lastName || "";
+                    const fullName = `${firstName} ${lastName}`.trim();
+                    localStorage.setItem("userName", fullName);
                     localStorage.setItem("userEmail", email);
 
                     iziToast.success({

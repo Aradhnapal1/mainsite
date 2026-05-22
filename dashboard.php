@@ -56,14 +56,10 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
                                 aria-labelledby="tab-dashboard-link">
-                                <p>Hello <span class="font-weight-normal text-dark">User</span> (not <span
-                                        class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>)
+                                <p>Hello <span class="font-weight-normal text-dark" id="dashboardUserName">User</span> 
                                     <br>
                                     From your account dashboard you can view your <a href="#tab-orders"
-                                        class="tab-trigger-link link-underline">recent orders</a>, manage your <a
-                                        href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>,
-                                    and <a href="#tab-account" class="tab-trigger-link">edit your password and account
-                                        details</a>.
+                                        class="tab-trigger-link link-underline">recent orders</a>.
                                 </p>
                             </div><!-- .End .tab-pane -->
 
@@ -171,5 +167,37 @@
 </main><!-- End .main -->
 
 <script src="assets/js/api/change-password.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const dashboardUserName = document.getElementById("dashboardUserName");
+    if (dashboardUserName) {
+        let fullName = localStorage.getItem("userName") || "User";
+        const token = localStorage.getItem("token");
+        
+        if (token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+                    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                ).join(''));
+                const payload = JSON.parse(jsonPayload);
+                
+                // Grab first and last name from token claims
+                const givenNameKey = Object.keys(payload).find(k => k.toLowerCase().includes('givenname') || k.toLowerCase() === 'firstname');
+                const surnameKey = Object.keys(payload).find(k => k.toLowerCase().includes('surname') || k.toLowerCase() === 'lastname');
+                
+                let fName = givenNameKey ? payload[givenNameKey] : fullName;
+                let lName = surnameKey ? payload[surnameKey] : "";
+                
+                fullName = `${fName} ${lName}`.trim();
+            } catch (err) {
+                console.error("Could not parse token to get full name", err);
+            }
+        }
+        dashboardUserName.textContent = fullName;
+    }
+});
+</script>
 
 <?php include 'footer.php'; ?>
