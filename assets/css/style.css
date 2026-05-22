@@ -11958,7 +11958,7 @@ button:focus {
     content: ''; }
 
 .entry-item {
-  float: right;
+  float: left;
   padding: 0 10px; }
 
 /* Entry list */
