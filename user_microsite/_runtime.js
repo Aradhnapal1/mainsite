@@ -1,5 +1,4 @@
-﻿(function () {
-    var API_BASE = window.MICROSITE_API_BASE || window.API_BASE || window.domain || "http://microsite_backend.workarya.com";
+﻿    var API_BASE = window.MICROSITE_API_BASE || window.API_BASE || window.domain || "http://microsite_backend.workarya.com";
 
     function safeText(value, fallback) {
         if (value === null || value === undefined || value === "") {
@@ -91,49 +90,6 @@
 
     function micrositeFromPayload(payload) {
         if (!payload) return null;
-        if (payload.data && (payload.data.id || payload.data.uniqueId)) return payload.data;
-        if (payload.data && !Array.isArray(payload.data)) return payload.data;
-        if (Array.isArray(payload) && payload.length > 0) return payload[0];
-        if (payload.id || payload.uniqueId) return payload;
-        return null;
-    }
-
-    function normalizeMicrositeId(id) {
-        if (!id) return "";
-        id = String(id).trim();
-        if (id.indexOf("-") >= 0) return id;
-        if (/^[a-f0-9]{32}$/i.test(id)) {
-            return id.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "$1-$2-$3-$4-$5");
-        }
-        return id;
-    }
-
-    function mapAssignedRows(rows) {
-        if (!Array.isArray(rows) || !rows.length) return [];
-        return rows
-            .map(function (row) {
-                return row.product || row.Product || row;
-            })
-            .filter(function (p) {
-                return p && (p.productId || p.ProductId || p.id || p.Id);
-            });
-    }
-
-    function extractProducts(payload) {
-        if (!payload) return [];
-        if (Array.isArray(payload.products) && payload.products.length) return payload.products;
-        if (payload.data && Array.isArray(payload.data.products) && payload.data.products.length) {
-            return payload.data.products;
-        }
-        var assigned = mapAssignedRows(payload.assignedProducts);
-        if (assigned.length) return assigned;
-        if (payload.data && Array.isArray(payload.data.assignedProducts)) {
-            assigned = mapAssignedRows(payload.data.assignedProducts);
-            if (assigned.length) return assigned;
-        }
-        if (Array.isArray(payload.data) && payload.data.length && payload.data[0].productId) {
-            return payload.data;
-        }
         return [];
     }
 
@@ -166,8 +122,6 @@
     }
 
     async function fetchMicrositeBundle(context) {
-        var micrositeId = context && context.micrositeId ? String(context.micrositeId).trim() : "";
-        var micrositeIdGuid = normalizeMicrositeId(micrositeId);
         var slug = context && context.slug ? context.slug : "";
         var domain = context && context.domain ? context.domain : "";
 
@@ -176,11 +130,6 @@
             endpoints.push(
                 API_BASE + "/api/microsite-public/by-id?microsite_id=" + encodeURIComponent(micrositeId)
             );
-            if (micrositeIdGuid && micrositeIdGuid !== micrositeId) {
-                endpoints.push(
-                    API_BASE + "/api/microsite-public/by-id?microsite_id=" + encodeURIComponent(micrositeIdGuid)
-                );
-            }
         }
         if (slug) {
             endpoints.push(API_BASE + "/api/microsite/slug/" + encodeURIComponent(slug));
@@ -195,7 +144,6 @@
                 if (!res.ok) continue;
                 var data = await res.json();
                 var microsite = micrositeFromPayload(data);
-                if (!microsite || (microsite.id == null && !microsite.uniqueId)) continue;
 
                 var products = extractProducts(data);
                 if (!products.length && micrositeId) {
@@ -214,25 +162,6 @@
     }
 
     async function fetchProductsFallback(micrositeId) {
-        var ids = [micrositeId, normalizeMicrositeId(micrositeId)].filter(function (v, i, a) {
-            return v && a.indexOf(v) === i;
-        });
-        for (var j = 0; j < ids.length; j += 1) {
-            try {
-                var res = await fetch(
-                    API_BASE +
-                        "/api/microsite-public/products-by-id?microsite_id=" +
-                        encodeURIComponent(ids[j])
-                );
-                if (!res.ok) continue;
-                var data = await res.json();
-                var list = extractProducts(data);
-                if (list.length) return list;
-            } catch (e) {
-                /* try next id format */
-            }
-        }
-        return [];
     }
 
     async function fetchProductsByDomain(domain) {

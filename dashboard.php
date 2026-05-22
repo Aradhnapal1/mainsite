@@ -28,18 +28,28 @@
                                     href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
                                     aria-selected="true">Dashboard</a>
                             </li>
+                            <!-- resert password -->
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-reset-password-link" data-toggle="tab"
+                                    href="#tab-reset-password" role="tab" aria-controls="tab-reset-password"
+                                    aria-selected="false">
+                                    Reset Password
+                                </a>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab"
                                     aria-controls="tab-orders" aria-selected="false">Orders</a>
                             </li>
-                          
-                          
+
+
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Sign Out</a>
                             </li>
                         </ul>
 
-                        
+
                     </aside><!-- End .col-lg-3 -->
 
                     <div class="col-10">
@@ -83,18 +93,75 @@
                                         </thead>
                                         <tbody id="ordersTableBody">
                                             <!-- Orders will load here -->
-                                             
+
 
                                         </tbody>
                                     </table>
                                 </div>
 
                             </div>
+                            <div class="tab-pane fade" id="tab-reset-password" role="tabpanel"
+                                aria-labelledby="tab-reset-password-link">
 
-                           
-                            
+                                <div class="page-content pb-5">
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-6 col-lg-5">
 
-                          
+                                                <div class="form-box p-4 shadow-sm" id="resetPasswordPage">
+
+                                                    <h3 class="text-center mb-3">Reset Password</h3>
+
+                                                    <p class="text-muted small mb-4">
+                                                        Update your password by entering your old and new password
+                                                        below.
+                                                    </p>
+
+                                                    <form action="" method="POST" id="changePasswordForm">
+
+                                                        <!-- Old Password -->
+                                                        <div class="form-group mb-3">
+                                                            <label for="oldPassword">Old Password</label>
+                                                            <input type="password" class="form-control" id="oldPassword"
+                                                                name="old_password" placeholder="Enter old password"
+                                                                required>
+                                                        </div>
+
+                                                        <!-- New Password -->
+                                                        <div class="form-group mb-3">
+                                                            <label for="newPassword">New Password</label>
+                                                            <input type="password" class="form-control" id="newPassword"
+                                                                name="new_password" placeholder="Enter new password"
+                                                                required>
+                                                        </div>
+
+                                                        <!-- Confirm Password -->
+                                                        <div class="form-group mb-4">
+                                                            <label for="confirmPassword">Confirm Password</label>
+                                                            <input type="password" class="form-control"
+                                                                id="confirmPassword" name="confirm_password"
+                                                                placeholder="Confirm new password" required>
+                                                        </div>
+
+                                                        <!-- Button -->
+                                                        <button type="submit" class="btn btn-primary btn-block w-100">
+                                                            Reset Password
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
                         </div>
                     </div><!-- End .col-lg-9 -->
                 </div><!-- End .row -->
@@ -103,5 +170,6 @@
     </div><!-- End .page-content -->
 </main><!-- End .main -->
 
+<script src="assets/js/api/change-password.js"></script>
 
 <?php include 'footer.php'; ?>

@@ -27,7 +27,14 @@ function msContextQuery(): string
 $msQuery = msContextQuery();
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $isLocalHost = in_array($host, ['localhost', '127.0.0.1'], true);
-$micrositeApiBase = $isLocalHost ? 'http://microsite_backend.workarya.com' : '';
+$useLocalApi = isset($_GET['localapi']) && $_GET['localapi'] === '1';
+if ($useLocalApi) {
+    $micrositeApiBase = 'https://localhost:7161';
+} elseif ($isLocalHost) {
+    $micrositeApiBase = 'http://microsite_backend.workarya.com';
+} else {
+    $micrositeApiBase = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +45,7 @@ $micrositeApiBase = $isLocalHost ? 'http://microsite_backend.workarya.com' : '';
     <title><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
     <meta name="description" content="Microsite page">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="microsite-layout.css">
     <link rel="stylesheet" href="microsite-products.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
@@ -62,14 +70,17 @@ $micrositeApiBase = $isLocalHost ? 'http://microsite_backend.workarya.com' : '';
             <img id="msLogo" class="ms-logo me-2" src="" alt="Logo" style="display:none;">
             <strong id="msSiteName">Microsite</strong>
         </a>
-        <nav class="d-flex gap-3 ms-header-nav flex-wrap">
-            <a href="index.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Home</a>
-            <a href="contact.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Contact</a>
-            <a href="login.html<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" id="msNavLogin">Login</a>
-            <a href="register.html<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" id="msNavRegister">Register</a>
-            <a href="cart.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" class="ms-cart-link" title="Cart">🛒<span class="ms-cart-badge" id="msCartBadge">0</span></a>
-            <a href="checkout.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Checkout</a>
-            <a href="order.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Order</a>
+        <nav class="d-flex flex-wrap gap-2 gap-md-3 ms-header-nav">
+            <a class="text-reset ms-nav-home" href="index.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Home</a>
+            <a class="text-reset" href="contact.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Contact</a>
+            <a class="text-reset" href="login.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" id="msNavLogin">Login</a>
+            <a class="text-reset" href="register.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" id="msNavRegister">Register</a>
+            <a class="text-reset ms-cart-link" href="cart.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>" title="Cart" aria-label="Cart">
+                <i class="icon-shopping-cart"></i>
+                <span class="ms-cart-badge" id="msCartBadge">0</span>
+            </a>
+            <a class="text-reset" href="checkout.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Checkout</a>
+            <a class="text-reset" href="order.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">Order</a>
         </nav>
     </div>
 </header>

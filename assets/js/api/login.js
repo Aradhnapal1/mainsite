@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (token && headerLoginLink) {
         const parentLi = headerLoginLink.parentElement;
         parentLi.innerHTML = `
-            <a href="#" style="display:inline-block;margin-right:15px;">
+            <a href="dashboard.php" style="display:inline-block;margin-right:15px;">
                 <i class="icon-user"></i>Hi, ${userName}
             </a>
             <a href="#" id="logoutBtn" style="display:inline-block;cursor:pointer;">
@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             localStorage.removeItem("token");
             localStorage.removeItem("userName");
+            localStorage.removeItem("userEmail");
 
             iziToast.success({
                 title: "Logged out",
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const firstName = data.data?.firstname || "User";
                     localStorage.setItem("userName", firstName);
+                    localStorage.setItem("userEmail", email);
 
                     iziToast.success({
                         title: "Success",

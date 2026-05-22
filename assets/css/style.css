@@ -6406,7 +6406,7 @@ a:focus {
   right: 50px;
   bottom: 128px;
   z-index: 999;
-  color: #cccccc;
+  color: #ffffff;
   display: none;
   align-items: center;
   justify-content: center;
@@ -6414,9 +6414,9 @@ a:focus {
   line-height: 1;
   visibility: hidden;
   opacity: 0;
-  border-radius: 0;
+  border-radius: 50%;
   border: none;
-  background-color: #fafafa;
+  background-color: #cc6666;
   font-size: 3rem;
   transition: all 0.4s ease;
   transform: translateY(60px);
@@ -11957,7 +11957,7 @@ button:focus {
     content: ''; }
 
 .entry-item {
-  float: left;
+  float: right;
   padding: 0 10px; }
 
 /* Entry list */

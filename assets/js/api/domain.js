@@ -26,6 +26,7 @@
     }
 
     var base = resolveApiBase().replace(/\/$/, "");
+    global.API_CONFIG = { live: API_LIVE, local: API_LOCAL, base: base, isLive: base === API_LIVE };
     global.domain = base;
     global.API_BASE = base;
     global.domin = base;

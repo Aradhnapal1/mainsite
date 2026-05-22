@@ -13,7 +13,7 @@ include '_header.php';
                 <td>#1001</td>
                 <td>Placed</td>
                 <td>Rs. 0.00</td>
-                <td><a class="btn btn-sm ms-btn" href="order-details.php">View Details</a></td>
+                <td><a class="btn btn-sm ms-btn" href="order-details.php<?php echo htmlspecialchars($msQuery, ENT_QUOTES, 'UTF-8'); ?>">View Details</a></td>
             </tr>
         </tbody>
     </table>
