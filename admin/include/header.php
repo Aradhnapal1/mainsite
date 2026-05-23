@@ -55,6 +55,9 @@
     <script src="./adminApi/microsite.js"></script>
     <script src="./adminApi/blog.js"></script>
     <script src="./adminApi/contact.js"></script>
+    <script src="./adminApi/dashboard.js"></script>
+
+
     
 </head>
 
