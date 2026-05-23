@@ -1,21 +1,69 @@
 <header class="ms-header py-3 mb-4">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="container ms-header-inner">
         <a href="#" data-ms-nav="index" class="text-decoration-none d-flex align-items-center text-reset ms-nav-home">
             <img id="msLogo" class="ms-logo me-2" src="" alt="Logo" style="display:none;">
             <strong id="msSiteName">Microsite</strong>
         </a>
-        <nav class="d-flex flex-wrap gap-2 gap-md-3 ms-header-nav">
+        <nav class="ms-header-nav ms-header-nav--desktop d-none d-md-flex align-items-center">
             <a class="text-reset" href="#" data-ms-nav="index">Home</a>
             <a class="text-reset" href="#" data-ms-nav="contact">Contact</a>
-            <a class="text-reset" href="#" data-ms-nav="login" id="msNavLogin">Login</a>
-            <a class="text-reset" href="#" data-ms-nav="register" id="msNavRegister">Register</a>
+            <a class="text-reset ms-nav-login-guest" href="#" data-ms-nav="login" title="Login" aria-label="Login"><i class="icon-user"></i></a>
+            <div class="dropdown ms-account-dropdown" style="display:none;">
+                <a class="text-reset dropdown-toggle ms-account-trigger" href="#" id="msAccountMenuDesktop" role="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false" title="Account" aria-label="Account">
+                    <i class="icon-user"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end ms-account-menu shadow" aria-labelledby="msAccountMenuDesktop">
+                    <li><a class="dropdown-item" href="#" data-ms-nav="profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" data-ms-nav="order">Orders</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item ms-nav-logout-action" href="#">Logout</a></li>
+                </ul>
+            </div>
             <a class="text-reset ms-cart-link" href="#" data-ms-nav="cart" title="Cart" aria-label="Cart">
                 <i class="icon-shopping-cart"></i>
                 <span class="ms-cart-badge" id="msCartBadge">0</span>
             </a>
-            <a class="text-reset" href="#" data-ms-nav="checkout">Checkout</a>
-            <a class="text-reset" href="#" data-ms-nav="order">Order</a>
         </nav>
+        <div class="ms-header-tools d-flex d-md-none align-items-center flex-shrink-0">
+            <a class="text-reset ms-cart-link ms-cart-link--mobile" href="#" data-ms-nav="cart" title="Cart" aria-label="Cart">
+                <i class="icon-shopping-cart"></i>
+                <span class="ms-cart-badge">0</span>
+            </a>
+            <a class="text-reset ms-nav-login-guest ms-nav-login-guest--mobile" href="#" data-ms-nav="login" title="Login" aria-label="Login"><i class="icon-user"></i></a>
+            <div class="dropdown ms-account-dropdown ms-account-dropdown--mobile" style="display:none;">
+                <a class="text-reset dropdown-toggle ms-account-trigger" href="#" id="msAccountMenuMobile" role="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false" title="Account" aria-label="Account">
+                    <i class="icon-user"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end ms-account-menu shadow" aria-labelledby="msAccountMenuMobile">
+                    <li><a class="dropdown-item" href="#" data-ms-nav="profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" data-ms-nav="order">Orders</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item ms-nav-logout-action" href="#">Logout</a></li>
+                </ul>
+            </div>
+            <button type="button" class="ms-menu-toggle" data-bs-toggle="offcanvas" data-bs-target="#msNavOffcanvas" aria-controls="msNavOffcanvas" aria-label="Open menu">
+                <span class="ms-menu-bar"></span>
+                <span class="ms-menu-bar"></span>
+                <span class="ms-menu-bar"></span>
+            </button>
+        </div>
     </div>
 </header>
-<main class="container pb-5">
+<div class="offcanvas offcanvas-end ms-nav-offcanvas" tabindex="-1" id="msNavOffcanvas" aria-labelledby="msNavOffcanvasLabel">
+    <div class="offcanvas-header border-bottom border-secondary border-opacity-25">
+        <h5 class="offcanvas-title" id="msNavOffcanvasLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <nav class="nav flex-column gap-3 ms-offcanvas-nav">
+            <a class="nav-link text-reset px-0 py-1" href="#" data-ms-nav="index">Home</a>
+            <a class="nav-link text-reset px-0 py-1" href="#" data-ms-nav="contact">Contact</a>
+            <a class="nav-link text-reset px-0 py-1 ms-offcanvas-guest" href="#" data-ms-nav="login"><i class="icon-user me-1"></i> Login</a>
+            <div class="ms-offcanvas-account" style="display:none;">
+                <a class="nav-link text-reset px-0 py-1" href="#" data-ms-nav="profile"><i class="icon-user me-1"></i> Profile</a>
+                <a class="nav-link text-reset px-0 py-1" href="#" data-ms-nav="order">Orders</a>
+                <a class="nav-link text-reset px-0 py-1 ms-nav-logout-action" href="#">Logout</a>
+            </div>
+        </nav>
+    </div>
+</div>

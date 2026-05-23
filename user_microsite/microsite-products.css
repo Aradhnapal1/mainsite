@@ -1,87 +1,41 @@
 /* Mainsite-style featured product cards for microsite */
-.ms-featured-wrap {
+.ms-featured-wrap,
+section.ms-featured {
     background-color: #f8f8f8;
     padding: 2rem 0 3rem;
     margin: 0 0 2rem;
 }
 
-.ms-carousel-shell {
-    position: relative;
+/* Bootstrap grid for featured products (no carousel) */
+#msProducts.row {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
+#msProducts > [class*="col-"] {
+    display: flex;
+}
+
+#msProducts > [class*="col-"] > .product {
+    width: 100%;
+}
+
+.ms-carousel-shell,
+.ms-carousel-btn,
+.ms-carousel-dots,
 .ms-products-viewport {
-    flex: 1;
-    overflow: hidden;
-    width: 100%;
+    display: none !important;
 }
 
-.ms-products-track {
-    display: flex;
-    flex-wrap: nowrap;
-    transition: transform 0.45s ease;
-    will-change: transform;
+/* Never hide the featured products grid (old JS used ms-products-track on #msProducts) */
+#msProducts {
+    display: flex !important;
+    flex-wrap: wrap;
+    transform: none !important;
 }
 
-.ms-product-slide {
-    padding: 0 10px;
-    box-sizing: border-box;
-    flex: 0 0 20%;
-    max-width: 20%;
-}
-
-.ms-carousel-btn {
-    flex: 0 0 auto;
-    width: 42px;
-    height: 42px;
-    border: none;
-    border-radius: 50%;
-    background: #fff;
-    color: #999;
-    font-size: 2rem;
-    line-height: 1;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-    z-index: 2;
-}
-
-.ms-carousel-btn:hover:not(:disabled) {
-    color: #333;
-    background: #fff;
-}
-
-.ms-carousel-btn:disabled {
-    opacity: 0.35;
-    cursor: default;
-}
-
-.ms-carousel-dots {
-    display: none;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-}
-
-.ms-carousel-dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: #d1d5db;
-    cursor: pointer;
-}
-
-.ms-carousel-dot.active {
-    background: #333;
-    transform: scale(1.15);
-}
-
-.ms-product-slide > .product {
-    width: 100%;
-    height: 100%;
+.ms-products-viewport .ms-products-track {
+    display: none !important;
 }
 
 .ms-featured-wrap .heading .title {
@@ -94,39 +48,9 @@
     text-align: center;
 }
 
-@media (max-width: 1199.98px) {
-    .ms-product-slide {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-}
-
-@media (max-width: 991.98px) {
-    .ms-product-slide {
-        flex: 0 0 33.3333%;
-        max-width: 33.3333%;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .ms-product-slide {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-    .ms-carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1.6rem;
-    }
-}
-
 @media (max-width: 575.98px) {
     .ms-featured-wrap {
         padding: 1.25rem 0 2rem;
-    }
-    .ms-product-slide {
-        flex: 0 0 100%;
-        max-width: 100%;
     }
     .ms-featured-wrap .product-action,
     .ms-featured-wrap .product-action-vertical {
@@ -147,7 +71,7 @@
 }
 
 .ms-featured-wrap .product:hover {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: none;
 }
 
 .ms-featured-wrap .product-media {
@@ -177,71 +101,39 @@
     opacity: 0;
 }
 
-.ms-featured-wrap .product-media:hover .product-image {
-    opacity: 0;
+.ms-featured-wrap .product-action-vertical,
+.ms-featured-wrap .btn-wishlist,
+.ms-featured-wrap .btn-quickview {
+    display: none !important;
 }
 
-.ms-featured-wrap .product-media:hover .product-image-hover {
-    opacity: 1;
-}
-
-.ms-featured-wrap .product-action-vertical {
-    position: absolute;
-    right: 1.5rem;
-    top: 1.5rem;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.35s ease;
-}
-
-.ms-featured-wrap .product:hover .product-action-vertical {
-    opacity: 1;
-    visibility: visible;
-}
-
-.ms-featured-wrap .btn-product-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 4rem;
-    height: 4rem;
-    font-size: 1.6rem;
-    line-height: 1;
-    color: #333;
-    background-color: #fff;
-    border: none;
-    margin-bottom: 0.5rem;
-    border-radius: 50%;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.ms-featured-wrap .product-action {
+/* Override mainsite style.css: .product-action is hidden until hover + translateY(100%) */
+.ms-featured-wrap .product-action,
+section.ms-featured .product-action,
+.ms-featured-wrap .product:hover .product-action,
+.ms-featured-wrap .product:focus .product-action,
+section.ms-featured .product:hover .product-action,
+section.ms-featured .product:focus .product-action {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 2;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.35s ease;
+    z-index: 12;
+    display: flex !important;
+    align-items: center;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
     background-color: rgba(255, 255, 255, 0.95);
 }
 
-.ms-featured-wrap .product:hover .product-action {
-    opacity: 1;
-    visibility: visible;
-}
-
-.ms-featured-wrap .product.product-7 .btn-product {
+.ms-featured-wrap .product.product-7 .btn-product,
+section.ms-featured .product.product-7 .btn-product {
     display: block;
     width: 100%;
     padding: 1.1rem 0;
-    color: #c96;
-    background-color: #fff;
+    color: var(--ms-button-color, #c96) !important;
+    background-color: #fff !important;
     text-transform: uppercase;
     border: none;
     border-bottom: 0.1rem solid #ebebeb;
@@ -251,9 +143,49 @@
     font-weight: 500;
 }
 
-.ms-featured-wrap .product.product-7 .btn-product:hover {
-    color: #fff;
-    background-color: #c96;
+.ms-featured-wrap .product.product-7 .btn-product:before,
+section.ms-featured .product.product-7 .btn-product:before {
+    display: none !important;
+    content: none !important;
+}
+
+.ms-featured-wrap .product.product-7 .btn-product span,
+section.ms-featured .product.product-7 .btn-product span {
+    color: var(--ms-button-color, #c96) !important;
+    box-shadow: none !important;
+}
+
+.ms-featured-wrap .product.product-7 .btn-product:hover,
+.ms-featured-wrap .product.product-7 .btn-product:focus,
+section.ms-featured .product.product-7 .btn-product:hover,
+section.ms-featured .product.product-7 .btn-product:focus {
+    color: var(--ms-button-text-color, #fff) !important;
+    background-color: var(--ms-button-color, #c96) !important;
+    border-bottom-color: var(--ms-button-color, #c96) !important;
+}
+
+.ms-featured-wrap .product.product-7 .btn-product:hover span,
+.ms-featured-wrap .product.product-7 .btn-product:focus span,
+section.ms-featured .product.product-7 .btn-product:hover span,
+section.ms-featured .product.product-7 .btn-product:focus span {
+    color: var(--ms-button-text-color, #fff) !important;
+    box-shadow: none !important;
+}
+
+body.ms-no-hover .ms-featured-wrap .product.product-7 .btn-product:hover,
+body.ms-no-hover .ms-featured-wrap .product.product-7 .btn-product:focus,
+body.ms-no-hover section.ms-featured .product.product-7 .btn-product:hover,
+body.ms-no-hover section.ms-featured .product.product-7 .btn-product:focus {
+    color: var(--ms-button-text-color, #fff) !important;
+    background-color: var(--ms-button-color, #c96) !important;
+    border-bottom-color: var(--ms-button-color, #c96) !important;
+}
+
+body.ms-no-hover .ms-featured-wrap .product.product-7 .btn-product:hover span,
+body.ms-no-hover .ms-featured-wrap .product.product-7 .btn-product:focus span,
+body.ms-no-hover section.ms-featured .product.product-7 .btn-product:hover span,
+body.ms-no-hover section.ms-featured .product.product-7 .btn-product:focus span {
+    color: var(--ms-button-text-color, #fff) !important;
 }
 
 .ms-featured-wrap .product-body {
@@ -284,17 +216,13 @@
 }
 
 .ms-featured-wrap .product-title a:hover {
-    color: #c96;
+    color: #333;
 }
 
-.ms-featured-wrap .product-price {
-    font-size: 1.6rem;
-    color: #c96;
-    justify-content: center;
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
+.ms-featured-wrap .product-price,
+.ms-featured-wrap .product-nav-thumbs,
+.ms-featured-wrap .grid-color-swatch {
+    display: none !important;
 }
 
 .ms-featured-wrap .old-price {
@@ -327,4 +255,27 @@
     padding: 3rem 1rem;
     color: #777;
     font-size: 1.6rem;
+}
+
+.ms-line-thumb {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.ms-nav-login-guest,
+.ms-account-trigger {
+    font-size: 1.35rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+}
+
+body.ms-no-hover .ms-btn:hover,
+body.ms-no-hover .btn:hover,
+body.ms-no-hover .btn-outline-danger:hover {
+    opacity: 1;
 }
