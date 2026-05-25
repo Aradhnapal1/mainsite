@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!reportContainer) return;
 
     // Determine the base URL, assuming `domin` is globally available from domin.js
-    const apiBase = typeof domin !== 'undefined' ? domin : 'http://microsite_backend.workarya.com';
+    const apiBase = typeof domin !== 'undefined' ? domin : 'https://microsite-backend.workarya.com';
     const token = localStorage.getItem("authToken");
 
     // Mapping for the API response keys to UI presentation

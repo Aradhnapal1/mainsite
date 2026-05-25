@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const apiBase = typeof domain !== 'undefined' ? domain : 'http://microsite_backend.workarya.com';
+                const apiBase = typeof domain !== 'undefined' ? domain : 'https://microsite-backend.workarya.com';
                 const res = await fetch(`${apiBase}/api/users/changepassword`, {
                     method: "POST",
                     headers: {

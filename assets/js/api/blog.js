@@ -4,7 +4,7 @@ async function loadBlogs() {
     if (!container) return;
 
     try {
-        const res = await fetch("http://microsite_backend.workarya.com/api/blog/getall");
+        const res = await fetch("https://microsite-backend.workarya.com/api/blog/getall");
         const result = await res.json();
 
         if (!result.status) return;
@@ -75,7 +75,7 @@ async function loadBlogBySlug() {
 
     try {
         // 1️⃣ Get all blogs
-        const res = await fetch("http://microsite_backend.workarya.com/api/blog/getall");
+        const res = await fetch("https://microsite-backend.workarya.com/api/blog/getall");
         const result = await res.json();
 
         if (!result.status) return;
@@ -85,7 +85,7 @@ async function loadBlogBySlug() {
         if (!blog) return;
 
         // 3️⃣ Now call detail API by ID
-        const detailRes = await fetch(`http://microsite_backend.workarya.com/api/blog/getblogbyid/${blog.id}`);
+        const detailRes = await fetch(`https://microsite-backend.workarya.com/api/blog/getblogbyid/${blog.id}`);
         const detailResult = await detailRes.json();
 
         const blogData = detailResult.data;
@@ -179,7 +179,7 @@ async function loadHomeBlogs() {
     if (!homeContainer) return;
 
     try {
-        const res = await fetch("http://microsite_backend.workarya.com/api/blog/getall");
+        const res = await fetch("https://microsite-backend.workarya.com/api/blog/getall");
         const result = await res.json();
 
         if (!result.status || !result.data) return;

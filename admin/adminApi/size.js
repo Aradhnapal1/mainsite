@@ -1,5 +1,5 @@
 // ===================== CONFIG =====================
-// const domin = "http://microsite_backend.workarya.com/";
+// const domin = "https://microsite-backend.workarya.com/";
 
 // ===================== LOAD SIZE LIST =====================
 async function loadSizes() {
@@ -206,7 +206,7 @@ document.addEventListener("click", function (e) {
 
 
 
-// const domin = "http://microsite_backend.workarya.com/";
+// const domin = "https://microsite-backend.workarya.com/";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);

@@ -1,5 +1,5 @@
 
-// const domin = "http://microsite_backend.workarya.com";
+// const domin = "https://microsite-backend.workarya.com";
 
 document.addEventListener("DOMContentLoaded", async function () {
 
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 
-// const domin = "http://microsite_backend.workarya.com";
+// const domin = "https://microsite-backend.workarya.com";
 
 async function deleteVariant(id) {
 

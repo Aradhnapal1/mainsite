@@ -316,7 +316,7 @@ fetch(api)
   .catch((err) => console.error(err));
 
 // const
-//  = "http://microsite_backend.workarya.com";
+//  = "https://microsite-backend.workarya.com";
 
 // 1) id read
 var currentProductId = new URLSearchParams(window.location.search).get("id");
@@ -913,7 +913,7 @@ document.addEventListener("click", function(e) {
   }
 });
 
-// const domain = "http://microsite_backend.workarya.com";
+// const domain = "https://microsite-backend.workarya.com";
 
 document.addEventListener("click", async function (e) {
   const btn = e.target.closest(".btn-cart");

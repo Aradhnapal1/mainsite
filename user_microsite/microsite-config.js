@@ -5,7 +5,7 @@
  * - ?localapi=1 → local dotnet API (https://localhost:7161)
  */
 (function (global) {
-    var API_LIVE = "http://microsite_backend.workarya.com";
+    var API_LIVE = "https://microsite-backend.workarya.com";
     var API_LOCAL = "https://localhost:7161";
 
     function isBackendStaticHost() {

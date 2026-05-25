@@ -2,7 +2,7 @@
  * Admin API base — uses shared api-config when available.
  */
 (function () {
-    var LIVE = "http://microsite_backend.workarya.com";
+    var LIVE = "https://microsite-backend.workarya.com";
     var LOCAL = "https://localhost:7161";
 
     function resolve() {

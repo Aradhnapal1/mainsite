@@ -4,7 +4,7 @@
 (function (global) {
     if (global.domain) return;
 
-    var API_LIVE = "http://microsite_backend.workarya.com";
+    var API_LIVE = "https://microsite-backend.workarya.com";
     var API_LOCAL = "https://localhost:7161";
 
     function resolveApiBase() {

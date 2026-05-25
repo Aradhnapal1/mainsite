@@ -1,5 +1,5 @@
 
-// const domain = "http://microsite_backend.workarya.com";
+// const domain = "https://microsite-backend.workarya.com";
 const sizeApi = `${domain}/api/admin/getsize`;
 
 fetch(sizeApi)
@@ -34,7 +34,7 @@ fetch(sizeApi)
   // =================================================== brand ==================================
 
 
-// const domain = "http://microsite_backend.workarya.com";
+// const domain = "https://microsite-backend.workarya.com";
 const brandApi = `${domain}/api/admin/getbrand`;
 
 fetch(brandApi)

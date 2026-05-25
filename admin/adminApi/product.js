@@ -248,7 +248,7 @@ async function loadProductColors() {
 
 
 
-// const domin = "http://microsite_backend.workarya.com";
+// const domin = "https://microsite-backend.workarya.com";
 
 document.addEventListener("DOMContentLoaded", async function () {
 
@@ -333,7 +333,7 @@ function editProduct(id) {
 }
 
 
-// const domin = "http://microsite_backend.workarya.com";
+// const domin = "https://microsite-backend.workarya.com";
 
 
 

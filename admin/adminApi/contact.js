@@ -1,5 +1,5 @@
 
-// const domain = "http://microsite_backend.workarya.com";
+// const domain = "https://microsite-backend.workarya.com";
 
 // ✅ LOAD CONTACTS
 async function loadContacts() {
