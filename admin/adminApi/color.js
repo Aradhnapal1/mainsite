@@ -1,29 +1,31 @@
+let refreshColorsList = null;
+
 async function loadColors() {
-  const tbody = document.getElementById("colorTableBody");
-  const token = localStorage.getItem("authToken");
+  if (refreshColorsList) await refreshColorsList();
+}
 
-  if (!tbody || !token) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const tableBody = document.getElementById("colorTableBody");
+  if (!tableBody) return;
 
-  try {
-    const res = await fetch(`${domin}/api/admin/getcolor`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    const colors = await res.json();
-    tbody.innerHTML = "";
-
-    colors.forEach((item, index) => {
+  refreshColorsList = initListPagination({
+    tableBodyId: "colorTableBody",
+    searchFields: ["colorname", "colorcode"],
+    getData: async () => {
+      const token = localStorage.getItem("authToken");
+      const res = await fetch(`${domin}/api/admin/getcolor`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      return Array.isArray(data) ? data : (data.data || []);
+    },
+    renderRow: (item, index) => {
       const statusBadge = item.isactive
         ? `<span class="badge badge-success">Active</span>`
         : `<span class="badge badge-danger">Inactive</span>`;
 
-      const li = document.createElement("li");
-      li.className = "attribute-item flex items-center justify-between gap20";
-
-      // ✅ IMPORTANT (fix)
-      li.setAttribute("data-id", item.id);
-
-      li.innerHTML = `
+      return `
+        <li class="attribute-item flex items-center justify-between gap20" data-id="${item.id}">
         <div class="body-text" style="flex:0 0 60px; max-width:60px;">
           ${index + 1}
         </div>
@@ -54,16 +56,11 @@ async function loadColors() {
             <i class="icon-trash-2"></i>
           </div>
         </div>
+      </li>
       `;
-
-      tbody.appendChild(li);
-    });
-
-  } catch (err) {
-    console.error(err);
-  }
-}
-document.addEventListener("DOMContentLoaded", loadColors);
+    },
+  });
+});
 
 // ===================== delete COLOR =====================
 

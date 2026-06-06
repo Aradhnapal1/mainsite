@@ -252,26 +252,39 @@ async function loadProductColors() {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
-  const api = `${domin}/api/product/getproduct`;
   const tableBody = document.getElementById("productTableBody");
+  if (!tableBody) return;
 
-  try {
-    const res = await fetch(api);
-    const products = await res.json();
-
-    tableBody.innerHTML = "";
-
-    products.forEach((item, index) => {
-
-      const imageUrl = item.image 
-        ? `${item.image}` 
+  initListPagination({
+    tableBodyId: "productTableBody",
+    searchFields: ["productName", "sku", "categoryName", "subCategoryName", "childCategoryName", "brandName", "shortDescription"],
+    searchText: (item) =>
+      [
+        item.productName,
+        item.sku,
+        item.categoryName,
+        item.subCategoryName,
+        item.childCategoryName,
+        item.brandName,
+        item.shortDescription,
+        ...(item.sizeNames || []),
+        ...(item.colorNames || []),
+      ].join(" "),
+    getData: async () => {
+      const res = await fetch(`${domin}/api/product/getproduct`);
+      if (!res.ok) throw new Error("Failed to load products");
+      return normalizeApiList(await res.json());
+    },
+    renderRow: (item, index) => {
+      const imageUrl = item.image
+        ? `${item.image}`
         : "https://via.placeholder.com/60x60?text=No+Image";
 
       const statusBadge = item.isActive
         ? `<span class="badge bg-success">Active</span>`
         : `<span class="badge bg-danger">Inactive</span>`;
 
-      const row = `
+      return `
         <li class="attribute-item flex items-center gap20">
 
           <div style="flex:0 0 60px; max-width:60px;" class="body-text">
@@ -319,13 +332,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         </li>
       `;
+    },
+  });
 
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-
-  } catch (err) {
-    console.error("Error loading products:", err);
-  }
 });
 
 function editProduct(id) {
@@ -551,6 +560,8 @@ async function prefillProductData(id) {
                 mainImgContainer.appendChild(preview);
             }
         }
+
+        renderGalleryPreviews("gallery-container", product.imageGallery || product.ImageGallery);
     } catch (err) {
         console.error("Prefill Error: ", err);
     }

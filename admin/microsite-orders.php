@@ -6,8 +6,10 @@
       <div class="wg-box mb-20">
         <form id="micrositeOrderFilterForm" class="form-new-product">
           <fieldset class="name mb-12">
-            <div class="body-title mb-10">Microsite ID</div>
-            <input id="orderMicrositeId" type="number" required>
+            <div class="body-title mb-10">Microsite</div>
+            <select id="orderMicrositeId" required>
+              <option value="">Select Microsite</option>
+            </select>
           </fieldset>
           <button class="tf-button" type="submit">Load Orders</button>
         </form>

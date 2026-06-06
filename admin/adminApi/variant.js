@@ -3,17 +3,26 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
 
-  const api = `${domin}/api/variant/getvariant`;
   const tableBody = document.getElementById("variantTableBody");
+  if (!tableBody) return;
 
-  try {
-    const res = await fetch(api);
-    const variants = await res.json();
-
-    tableBody.innerHTML = "";
-
-    variants.forEach((item, index) => {
-
+  initListPagination({
+    tableBodyId: "variantTableBody",
+    searchText: (item) =>
+      [
+        item.variantName,
+        item.sku,
+        item.sizeNames,
+        item.colorNames,
+        item.price,
+        item.stock,
+      ].join(" "),
+    getData: async () => {
+      const res = await fetch(`${domin}/api/variant/getvariant`);
+      if (!res.ok) throw new Error("Failed to load variants");
+      return normalizeApiList(await res.json());
+    },
+    renderRow: (item, index) => {
       const imageUrl = item.image
         ? `${item.image}`
         : "https://via.placeholder.com/60x60?text=No+Image";
@@ -22,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         ? `<span class="badge bg-success">Active</span>`
         : `<span class="badge bg-danger">Inactive</span>`;
 
-      const row = `
+      return `
         <li class="attribute-item flex items-center gap20" style="white-space: nowrap;">
 
           <div style="flex:0 0 60px; max-width:60px;" class="body-text">
@@ -79,13 +88,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         </li>
       `;
+    },
+  });
 
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-
-  } catch (err) {
-    console.error("Variant load error:", err);
-  }
 });
 
 
@@ -429,6 +434,8 @@ async function prefillVariantData(id) {
         mainImgContainer.insertAdjacentElement('afterbegin', preview);
       }
     }
+
+    renderGalleryPreviews("gallery-container", variant.imageGallery || variant.ImageGallery);
   } catch (err) {
     console.error("Prefill Error: ", err);
   }

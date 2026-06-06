@@ -767,6 +767,28 @@ async function initMicrositeOrdersPage() {
 
   const micrositeIdInput = document.getElementById("orderMicrositeId");
 
+  async function loadMicrositeDropdown() {
+    if (!micrositeIdInput) return;
+    try {
+      const result = await fetchJson(`${domin}/api/admin/all-microsite`, {
+        headers: getAuthHeaders(),
+      });
+      const microsites = Array.isArray(result) ? result : (result.data || []);
+      micrositeIdInput.innerHTML = '<option value="">Select Microsite</option>';
+      microsites.forEach((m) => {
+        const id = m.id || m.Id;
+        const name = m.name || m.Name || m.slug || m.Slug || `Microsite ${id}`;
+        if (!id) return;
+        micrositeIdInput.insertAdjacentHTML(
+          "beforeend",
+          `<option value="${id}">${name}</option>`
+        );
+      });
+    } catch (err) {
+      iziToast.error({ title: "Error", message: err.message || "Microsite list load failed", position: "topRight" });
+    }
+  }
+
   async function loadOrders() {
     const micrositeId = micrositeIdInput.value.trim();
     if (!micrositeId) return;
@@ -824,4 +846,6 @@ async function initMicrositeOrdersPage() {
       iziToast.error({ title: "Error", message: err.message, position: "topRight" });
     }
   });
+
+  await loadMicrositeDropdown();
 }

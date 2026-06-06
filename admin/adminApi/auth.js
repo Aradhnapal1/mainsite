@@ -3,8 +3,8 @@
 
     const currentPage = window.location.pathname.split("/").pop();
 
-    // login page par ho to check na karo
-    if (currentPage === "login.php") return;
+    // login / signup pages par ho to check na karo
+    if (currentPage === "login.php" || currentPage === "sign-up.php") return;
 
     if (!isLoggedIn) {
         window.location.href = "login.php";

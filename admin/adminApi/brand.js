@@ -1,25 +1,26 @@
 // const domin = "https://microsite-backend.workarya.com";
 
-document.addEventListener("DOMContentLoaded", loadBrands);
+let refreshBrandsList = null;
 
-async function loadBrands() {
+document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.getElementById("brandTableBody");
   if (!tableBody) return;
 
-  try {
-    const res = await fetch(`${domin}/api/admin/getbrand`);
-    const result = await res.json();
-
-    if (!result.status || !Array.isArray(result.data)) return;
-
-    tableBody.innerHTML = "";
-
-    result.data.forEach((item, index) => {
+  refreshBrandsList = initListPagination({
+    tableBodyId: "brandTableBody",
+    searchFields: ["brandName"],
+    getData: async () => {
+      const res = await fetch(`${domin}/api/admin/getbrand`);
+      const result = await res.json();
+      if (result.status && Array.isArray(result.data)) return result.data;
+      return Array.isArray(result) ? result : (result.data || []);
+    },
+    renderRow: (item, index) => {
       const statusBadge = item.isActive
         ? `<span class="badge badge-success">Active</span>`
         : `<span class="badge badge-danger">Inactive</span>`;
 
-      const row = `
+      return `
         <li class="attribute-item flex items-center justify-between gap20">
           <div class="body-text" style="flex:0 0 60px; max-width:60px;">
             ${index + 1}
@@ -51,13 +52,12 @@ async function loadBrands() {
           </div>
         </li>
       `;
+    },
+  });
+});
 
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-
-  } catch (err) {
-    console.error("Brand load error:", err);
-  }
+async function loadBrands() {
+  if (refreshBrandsList) await refreshBrandsList();
 }
 
 // ================= EDIT =================
@@ -211,23 +211,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const res = await fetch(`${domin}/api/admin/getbrand`);
-    const brands = await res.json();
-    const item = brands.find(b => b.id == id);
+    const result = await res.json();
+    const brands = Array.isArray(result) ? result : (result.data || []);
+    const item = brands.find((b) => String(b.id) === String(id));
     if (!item) return;
 
-    // Fill fields
-    document.querySelector('input[name="text"]').value = item.brandName;
-    document.getElementById("statusToggle").checked = item.isActive;
+    const nameInput = document.querySelector('input[name="text"]');
+    const statusToggle = document.getElementById("statusToggle");
+    if (nameInput) nameInput.value = item.brandName || "";
+    if (statusToggle) {
+      statusToggle.checked = item.isActive === true || item.isActive === "true" || item.isActive === 1;
+    }
 
     // Show existing image preview
     const preview = document.getElementById("imagePreview");
     const icon = document.getElementById("uploadIcon");
     const text = document.getElementById("uploadText");
 
-    preview.src = `${domin}${item.brandImage}`;
-    preview.style.display = "block";
-    icon.style.display = "none";
-    text.style.display = "none";
+    if (preview && item.brandImage) {
+      preview.src = resolveAdminAssetUrl(item.brandImage);
+      preview.style.display = "block";
+      if (icon) icon.style.display = "none";
+      if (text) text.style.display = "none";
+    }
 
   } catch (err) {
     console.error("Load brand error:", err);

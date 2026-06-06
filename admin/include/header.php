@@ -43,6 +43,7 @@
      <link rel="stylesheet" href="https://d-themes.com/html/molla/assets/css/fonts/molla-icons.css">
     <script src="./adminApi/auth.js"></script>
     <script src="./adminApi/domin.js"></script>
+    <script src="./adminApi/list-pagination.js"></script>
     <script src="./adminApi/login.js"></script>
     <script src="./adminApi/category.js"></script>
     <script src="./adminApi/color.js"></script>

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Child Category Initialization ---
     const tableBody = document.getElementById("childCategoryTableBody");
     if (tableBody) {
-      getChildCategories();
+      initChildCategoryListPagination();
     }
 
     const form = document.getElementById("childcategory-add");
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("subCategoryTableBody");
     if (tableBody) {
       tableBody.id = "subCategoryTableBody"; // ensure correct ID mapping
-      getSubCategories();
+      initSubCategoryListPagination();
     }
 
     const form =
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     // --- Standard Category Initialization ---
     const tableBody = document.getElementById("categoryTableBody");
-    if (tableBody) getCategories();
+    if (tableBody) initCategoryListPagination();
 
     const form = document.getElementById("category-add");
     if (form) {
@@ -96,36 +96,47 @@ document.addEventListener("change", function (e) {
 });
 
 // ======= GET ALL CATEGORIES (list page) =======
+let refreshCategoriesList = null;
+let refreshSubCategoriesList = null;
+let refreshChildCategoriesList = null;
+
 async function getCategories() {
-  const api = `${domin}/api/category/get`;
-  const tableBody = document.getElementById("categoryTableBody");
+  if (refreshCategoriesList) await refreshCategoriesList();
+}
 
-  try {
-    const response = await fetch(api);
-    if (!response.ok) throw new Error("Failed to fetch categories");
+async function getSubCategories() {
+  if (refreshSubCategoriesList) await refreshSubCategoriesList();
+}
 
-    const data = await response.json();
-    tableBody.innerHTML = "";
+async function getChildCategories() {
+  if (refreshChildCategoriesList) await refreshChildCategoriesList();
+}
 
-    data.forEach((cat, index) => {
+function initCategoryListPagination() {
+  refreshCategoriesList = initListPagination({
+    tableBodyId: "categoryTableBody",
+    searchFields: ["name", "Name"],
+    searchText: (cat) => [cat.name, cat.Name].filter(Boolean).join(" "),
+    getData: async () => {
+      const response = await fetch(`${domin}/api/category/get`);
+      if (!response.ok) throw new Error("Failed to fetch categories");
+      return normalizeApiList(await response.json());
+    },
+    renderRow: (cat, index) => {
       const catId = cat.id || cat._id || cat.Id;
       const catName = cat.name || cat.Name || "";
-      const catImg = cat.imageUrl || cat.ImageUrl;
+      const catImg = cat.imageUrl || cat.ImageUrl || "https://via.placeholder.com/40x40?text=No+Img";
       const catStatus = cat.status !== undefined ? cat.status : cat.Status;
-
-      const imgUrl = catImg      
-      ;
-
       const statusBadge =
         catStatus === true || catStatus === 1 || catStatus === "true"
           ? `<span class="badge badge-success">Active</span>`
           : `<span class="badge badge-danger">Inactive</span>`;
 
-      const row = `
+      return `
         <li class="attribute-item flex items-center gap20">
           <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
           <div class="name flex items-center gap10">
-            <img src="${imgUrl}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
+            <img src="${catImg}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
           </div>
           <div class="body-title-2">${catName}</div>
           <div class="body-text">${statusBadge}</div>
@@ -140,13 +151,107 @@ async function getCategories() {
             </div>
           </div>
         </li>`;
+    },
+  });
+}
 
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    tableBody.innerHTML = `<li class="body-text text-danger">Failed to load categories ❌</li>`;
-  }
+function initSubCategoryListPagination() {
+  refreshSubCategoriesList = initListPagination({
+    tableBodyId: "subCategoryTableBody",
+    searchText: (cat) =>
+      [cat.subCategoryName, cat.Name, cat.categoryName, cat.CategoryName].filter(Boolean).join(" "),
+    getData: async () => {
+      const response = await fetch(subCategoryGet);
+      if (!response.ok) throw new Error("Failed to fetch subcategories");
+      return normalizeApiList(await response.json());
+    },
+    renderRow: (cat, index) => {
+      const catId = cat.id || cat._id || cat.Id;
+      const catName = cat.subCategoryName || cat.Name || "";
+      const catImg = cat.subCategoryImageUrl || cat.ImageUrl || "https://via.placeholder.com/40x40?text=No+Img";
+      const catStatus = cat.status !== undefined ? cat.status : cat.Status;
+      const categoryName = cat.categoryName || cat.CategoryName || "";
+      const statusBadge =
+        catStatus === true || catStatus === 1 || catStatus === "true"
+          ? `<span class="badge badge-success">Active</span>`
+          : `<span class="badge badge-danger">Inactive</span>`;
+
+      return `
+        <li class="attribute-item flex items-center gap20">
+          <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
+          <div class="name flex items-center gap10">
+            <img src="${catImg}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
+          </div>
+          <div class="body-title-2">${categoryName}</div>
+          <div class="body-title-2">${catName}</div>
+          <div class="body-text">${statusBadge}</div>
+          <div class="list-icon-function">
+            <div class="item text-primary" onclick="redirectToEditSubCategory('${catId}')">
+              <i class="icon-edit-3"></i>
+            </div>
+          </div>
+          <div class="list-icon-function">
+            <div class="item text-danger" onclick="removeSubCategory('${catId}')">
+              <i class="icon-trash-2"></i>
+            </div>
+          </div>
+        </li>`;
+    },
+  });
+}
+
+function initChildCategoryListPagination() {
+  refreshChildCategoriesList = initListPagination({
+    tableBodyId: "childCategoryTableBody",
+    searchText: (cat) =>
+      [
+        cat.childCategoryName,
+        cat.ChildCategoryName,
+        cat.subCategoryName,
+        cat.SubCategoryName,
+        cat.categoryName,
+        cat.CategoryName,
+      ].filter(Boolean).join(" "),
+    getData: async () => {
+      const response = await fetch(childCategoryGet);
+      if (!response.ok) throw new Error("Failed to fetch child categories");
+      return normalizeApiList(await response.json());
+    },
+    renderRow: (cat, index) => {
+      const catId = cat.id || cat._id || cat.Id;
+      const catName = cat.childCategoryName || cat.ChildCategoryName || cat.name || "";
+      const subCatName = cat.subCategoryName || cat.SubCategoryName || "";
+      const categoryName = cat.categoryName || cat.CategoryName || "";
+      const catImg = cat.childCategoryImageUrl || cat.imageUrl || cat.ImageUrl || "https://via.placeholder.com/40x40?text=No+Img";
+      const catStatus = cat.status !== undefined ? cat.status : cat.Status;
+      const statusBadge =
+        catStatus === true || catStatus === 1 || catStatus === "true"
+          ? `<span class="badge badge-success">Active</span>`
+          : `<span class="badge badge-danger">Inactive</span>`;
+
+      return `
+        <li class="attribute-item flex items-center justify-between gap20">
+          <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
+          <div class="name flex items-center gap10">
+            <img src="${catImg}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
+          </div>
+          <div class="body-title-2">${categoryName}</div>
+          <div class="body-title-2">${subCatName}</div>
+          <div class="body-title-2">${catName}</div>
+          <div class="body-text">${statusBadge}</div>
+          <div class="list-icon-function">
+            <div class="item text-primary" onclick="redirectToEditChildCategory('${catId}')">
+              <i class="icon-edit-3"></i>
+            </div>
+          </div>
+          <div class="list-icon-function">
+            <div class="item text-danger" onclick="removeChildCategory('${catId}')">
+              <i class="icon-trash-2"></i>
+            </div>
+          </div>
+        </li>`;
+    },
+  });
 }
 
 // ======= EDIT REDIRECT =======
@@ -459,64 +564,6 @@ async function populateCategoryDropdown() {
     });
   } catch (error) {
     console.error("Error loading categories for dropdown:", error);
-  }
-}
-
-// ======= GET ALL SUBCATEGORIES (list page) =======
-async function getSubCategories() {
-  const tableBody = document.getElementById("subCategoryTableBody");
-
-  try {
-    const response = await fetch(subCategoryGet);
-    if (!response.ok) throw new Error("Failed to fetch subcategories");
-
-    const data = await response.json();
-    console.log(data, getSubCategories);
-
-    tableBody.innerHTML = "";
-
-    data.forEach((cat, index) => {
-      const catId = cat.id || cat._id || cat.Id;
-      const catName = cat.subCategoryName || cat.Name || "";
-      const catImg = cat.subCategoryImageUrl || cat.ImageUrl;
-      const catStatus = cat.status !== undefined ? cat.status : cat.Status;
-      const categoryName = cat.categoryName || cat.CategoryName || "";
-
-      const imgUrl = catImg
-        ?  catImg
-        : "https://via.placeholder.com/40x40?text=No+Img";
-
-      const statusBadge =
-        catStatus === true || catStatus === 1 || catStatus === "true"
-          ? `<span class="badge badge-success">Active</span>`
-          : `<span class="badge badge-danger">Inactive</span>`;
-
-      const row = `
-        <li class="attribute-item flex items-center gap20">
-          <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
-          <div class="name flex items-center gap10">
-            <img src="${imgUrl}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
-          </div>
-          <div class="body-title-2">${categoryName}</div>
-          <div class="body-title-2">${catName}</div>
-          <div class="body-text">${statusBadge}</div>
-          <div class="list-icon-function">
-            <div class="item text-primary" onclick="redirectToEditSubCategory('${catId}')">
-              <i class="icon-edit-3"></i>
-            </div>
-          </div>
-          <div class="list-icon-function">
-            <div class="item text-danger" onclick="removeSubCategory('${catId}')">
-              <i class="icon-trash-2"></i>
-            </div>
-          </div>
-        </li>`;
-
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    tableBody.innerHTML = `<li class="body-text text-danger">Failed to load subcategories ❌</li>`;
   }
 }
 
@@ -859,64 +906,6 @@ async function populateSubCategoryDropdown() {
     });
   } catch (error) {
     console.error("Error loading subcategories for dropdown:", error);
-  }
-}
-
-// ======= GET ALL CHILD CATEGORIES =======
-async function getChildCategories() {
-  const tableBody = document.getElementById("childCategoryTableBody");
-  if (!tableBody) return;
-
-  try {
-    const response = await fetch(childCategoryGet);
-    if (!response.ok) throw new Error("Failed to fetch child categories");
-
-    const data = await response.json();
-    tableBody.innerHTML = "";
-
-    data.forEach((cat, index) => {
-      const catId = cat.id || cat._id || cat.Id;
-      const catName =
-        cat.childCategoryName || cat.ChildCategoryName || cat.name || "";
-      const subCatName = cat.subCategoryName || cat.SubCategoryName || "";
-      const categoryName = cat.categoryName || cat.CategoryName || "";
-      const catImg = cat.childCategoryImageUrl || cat.imageUrl || cat.ImageUrl;
-      const catStatus = cat.status !== undefined ? cat.status : cat.Status;
-
-      const imgUrl = catImg
-        ?  catImg
-        : "https://via.placeholder.com/40x40?text=No+Img";
-      const statusBadge =
-        catStatus === true || catStatus === 1 || catStatus === "true"
-          ? `<span class="badge badge-success">Active</span>`
-          : `<span class="badge badge-danger">Inactive</span>`;
-
-      const row = `
-        <li class="attribute-item flex items-center justify-between gap20">
-          <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
-          <div class="name flex items-center gap10">
-            <img src="${imgUrl}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
-          </div>
-          <div class="body-title-2">${categoryName}</div>
-          <div class="body-title-2">${subCatName}</div>
-          <div class="body-title-2">${catName}</div>
-          <div class="body-text">${statusBadge}</div>
-          <div class="list-icon-function">
-            <div class="item text-primary" onclick="redirectToEditChildCategory('${catId}')">
-              <i class="icon-edit-3"></i>
-            </div>
-          </div>
-          <div class="list-icon-function">
-            <div class="item text-danger" onclick="removeChildCategory('${catId}')">
-              <i class="icon-trash-2"></i>
-            </div>
-          </div>
-        </li>`;
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    tableBody.innerHTML = `<li class="body-text text-danger">Failed to load child categories ❌</li>`;
   }
 }
 

@@ -2,30 +2,37 @@
 // const domin = "https://microsite-backend.workarya.com/";
 
 // ===================== LOAD SIZE LIST =====================
+let refreshSizesList = null;
+
 async function loadSizes() {
-  const api = `${domin}/api/admin/getsize`;
+  if (refreshSizesList) await refreshSizesList();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.getElementById("sizeTableBody");
   if (!tableBody) return;
 
-  try {
-    const res = await fetch(api);
-    const data = await res.json();
-
-    tableBody.innerHTML = "";
-
-    data.forEach((item, index) => {
+  refreshSizesList = initListPagination({
+    tableBodyId: "sizeTableBody",
+    searchFields: ["sizeName", "description"],
+    getData: async () => {
+      const res = await fetch(`${domin}/api/admin/getsize`);
+      const data = await res.json();
+      return Array.isArray(data) ? data : (data.data || []);
+    },
+    renderRow: (item, index) => {
       const statusBadge = item.isActive
         ? `<span class="badge badge-success">Active</span>`
         : `<span class="badge badge-danger">Inactive</span>`;
 
-      const row = `
+      return `
         <li class="attribute-item flex items-center gap20">
           <div class="body-text" style="flex:0 0 60px; max-width:60px;">
             ${index + 1}
           </div>
 
           <div class="body-title-2">${item.sizeName}</div>
-          <div class="body-text">${item.description}</div>
+          <div class="body-text">${item.description ?? ""}</div>
           <div class="body-text">${statusBadge}</div>
 
           <div class="list-icon-function">
@@ -41,18 +48,8 @@ async function loadSizes() {
           </div>
         </li>
       `;
-
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-
-  } catch (err) {
-    console.error("Load size error:", err);
-  }
-}
-
-// ===================== ON PAGE LOAD =====================
-document.addEventListener("DOMContentLoaded", () => {
-  loadSizes();
+    },
+  });
 });
 
 // ===================== ADD SIZE =====================

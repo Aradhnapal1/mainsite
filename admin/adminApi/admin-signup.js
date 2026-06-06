@@ -1,5 +1,3 @@
-const addAdmin = `${domin}/api/admin/add`;
-
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("register-form");
 
@@ -12,10 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const lastName = document.getElementById("lastName").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
-        const confirmPassword = document.getElementById("confirmpassword").value.trim(); // ✅ fixed
+        const confirmPassword = document.getElementById("confirmpassword").value.trim();
         const phone = document.getElementById("number").value.trim();
 
-        // ✅ validation
         if (!firstName || !lastName || !email || !password || !confirmPassword || !phone) {
             iziToast.error({
                 title: "Error",
@@ -35,8 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const formData = new FormData();
-
-        // ✅ EXACT backend keys
         formData.append("FirstName", firstName);
         formData.append("LastName", lastName);
         formData.append("Email", email);
@@ -44,21 +39,31 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("PasswordHash", password);
 
         try {
-            const response = await fetch(addAdmin, {
+            const response = await fetch(`${domin}/api/admin/add`, {
                 method: "POST",
                 body: formData
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get("content-type");
+            let data = {};
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                data = { message: text || "Unexpected server response" };
+            }
 
             if (response.ok) {
                 iziToast.success({
                     title: "Success",
-                    message: "Admin registered successfully",
+                    message: data.message || "Admin registered successfully",
                     position: "topRight"
                 });
 
                 registerForm.reset();
+                setTimeout(() => {
+                    window.location.href = "login.php";
+                }, 1200);
             } else {
                 iziToast.error({
                     title: "Error",
