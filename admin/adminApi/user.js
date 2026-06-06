@@ -3,6 +3,8 @@ const editUser = `${domin}/api/users/updateuser/`
 const deleteUser = `${domin}/api/users/deleteuser/`
 const addUser = `${domin}/api/users/adduser`
 
+let refreshUsersList = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const urlId = urlParams.get("id");
@@ -14,24 +16,62 @@ document.addEventListener("DOMContentLoaded", () => {
   if (isAllUser) {
     const tableBody = document.getElementById("allUserTableBody");
     if (tableBody) {
-      getUsers();
-    }
-    
-    // Live Search Functionality
-    const searchInput = document.getElementById("userSearchInput");
-    if (searchInput) {
-      searchInput.addEventListener("input", function (e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const rows = document.querySelectorAll("#allUserTableBody li");
-        
-        rows.forEach(row => {
-          const textContent = row.innerText.toLowerCase();
-          if (textContent.includes(searchTerm)) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
+      refreshUsersList = initListPagination({
+        tableBodyId: "allUserTableBody",
+        searchText: (user) => {
+          const firstName = user.firstname || user.FirstName || "";
+          const lastName = user.lastname || user.LastName || "";
+          const email = user.email || user.Email || "";
+          const role = user.role || user.Role || "";
+          return [firstName, lastName, email, role].join(" ");
+        },
+        getData: async () => {
+          const token = localStorage.getItem("authToken");
+          const response = await fetch(allUser, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (!response.ok) throw new Error("Failed to fetch users");
+          const result = await response.json();
+          return normalizeApiList(result);
+        },
+        renderRow: (user, index) => {
+          const userId = user.id || user._id || user.Id;
+          const firstName = user.firstname || user.FirstName || "";
+          const lastName = user.lastname || user.LastName || "";
+          const email = user.email || user.Email || "";
+          const role = user.role || user.Role || "USER";
+          const isActive = user.isactive !== undefined ? user.isactive : user.IsActive;
+
+          let formattedDate = "N/A";
+          if (user.createdat || user.CreatedAt) {
+            const dateObj = new Date(user.createdat || user.CreatedAt);
+            formattedDate = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
           }
-        });
+
+          const statusBadge = (isActive === true || isActive === 1 || isActive === "true")
+            ? `<span class="badge badge-success">Active</span>`
+            : `<span class="badge badge-danger">Inactive</span>`;
+
+          return `
+            <li class="attribute-item flex items-center justify-between gap20">
+              <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
+              <div class="body-title-2">${firstName} ${lastName}</div>
+              <div class="body-title-2">${email}</div>
+              <div class="body-title-2">${role}</div>
+              <div class="body-title-2">${formattedDate}</div>
+              <div class="body-text">${statusBadge}</div>
+              <div class="list-icon-function">
+                <div class="item text-primary" onclick="redirectToEditUser('${userId}')">
+                  <i class="icon-edit-3"></i>
+                </div>
+              </div>
+              <div class="list-icon-function">
+                <div class="item text-danger" onclick="removeUser('${userId}')">
+                  <i class="icon-trash-2"></i>
+                </div>
+              </div>
+            </li>`;
+        },
       });
     }
   } 
@@ -54,65 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ======= GET ALL USERS =======
 async function getUsers() {
-  const tableBody = document.getElementById("allUserTableBody");
-  const token = localStorage.getItem("authToken");
-  
-  try {
-    const response = await fetch(allUser, {
-      headers: { "Authorization": `Bearer ${token}` }
-    });
-    if (!response.ok) throw new Error("Failed to fetch users");
-
-    const result = await response.json();
-    const data = result.data || result;
-    
-    tableBody.innerHTML = "";
-
-    data.forEach((user, index) => {
-      const userId = user.id || user._id || user.Id;
-      const firstName = user.firstname || user.FirstName || "";
-      const lastName = user.lastname || user.LastName || "";
-      const email = user.email || user.Email || "";
-      const role = user.role || user.Role || "USER";
-      const isActive = user.isactive !== undefined ? user.isactive : user.IsActive;
-      
-      let formattedDate = "N/A";
-      if (user.createdat || user.CreatedAt) {
-        const dateObj = new Date(user.createdat || user.CreatedAt);
-        formattedDate = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
-      }
-
-      const statusBadge = (isActive === true || isActive === 1 || isActive === "true")
-        ? `<span class="badge badge-success">Active</span>`
-        : `<span class="badge badge-danger">Inactive</span>`;
-
-      const row = `
-        <li class="attribute-item flex items-center justify-between gap20">
-          <div class="body-text" style="flex:0 0 60px; max-width:60px;">${index + 1}</div>
-          <div class="body-title-2">${firstName} ${lastName}</div>
-          <div class="body-title-2">${email}</div>
-          <div class="body-title-2">${role}</div>
-          <div class="body-title-2">${formattedDate}</div>
-          <div class="body-text">${statusBadge}</div>
-          <div class="list-icon-function">
-            <div class="item text-primary" onclick="redirectToEditUser('${userId}')">
-              <i class="icon-edit-3"></i>
-            </div>
-          </div>
-          <div class="list-icon-function">
-            <div class="item text-danger" onclick="removeUser('${userId}')">
-              <i class="icon-trash-2"></i>
-            </div>
-          </div>
-        </li>`;
-
-      tableBody.insertAdjacentHTML("beforeend", row);
-    });
-
-  } catch (error) {
-    console.error("Error:", error);
-    tableBody.innerHTML = `<li class="body-text text-danger">Failed to load users ❌</li>`;
-  }
+  if (refreshUsersList) await refreshUsersList();
 }
 
 // ======= DELETE USER =======

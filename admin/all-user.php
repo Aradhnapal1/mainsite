@@ -33,6 +33,17 @@
             <div class="wg-box">
                 <div class="flex items-center justify-between gap10 flex-wrap">
                     <div class="wg-filter flex-grow">
+                        <div class="show">
+                            <div class="text-tiny">Showing</div>
+                            <div class="select">
+                                <select class="">
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>30</option>
+                                </select>
+                            </div>
+                            <div class="text-tiny">entries</div>
+                        </div>
                         <form class="form-search">
                             <fieldset class="name">
                                 <input type="text" placeholder="Search here..." class="" name="name" id="userSearchInput" tabindex="2"
