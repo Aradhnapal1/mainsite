@@ -81,8 +81,8 @@
             <p class="footer-copyright">Copyright © 2019 HyperScripts. All Rights Reserved.</p>
             <!-- End .footer-copyright -->
             <ul class="footer-menu">
-                <li><a href="#">Terms Of Use</a></li>
-                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="terms.php">Terms Of Use</a></li>
+                <li><a href="privacy.php">Privacy Policy</a></li>
             </ul><!-- End .footer-menu -->
 
             <div class="social-icons social-icons-color">
